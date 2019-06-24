@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block customStylesheet %}
+  <link href="{{ asset ('frontend/css/scalable-searching.css')}}" rel="stylesheet">
+  <link href="{{asset ('frontend/css/blog-photos.css')}}" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+{% endblock %}
+
+{% block description %}
+
+{% endblock %}
+
+
+
+{% block navitems %}
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item ">
+            <a class="nav-link" href="{{ url('index')}}">Start</a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="{{ url('articles')}}">Artykuły</a> 
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url('photos')}}">Zdjęcia</a>
+          </li>
+          <li class="nav-item  active">
+            <a class="nav-link" href="{{ url('videos')}}">Materiały Video</a>
+            <span class="sr-only">(Current)</span>
+          </li>
+
+           <li class="nav-item">
+              <a class="nav-link" href="{{ url('sources')}}">Źródła</a>
+            </li>
+
+           <li class="nav-item">
+            <a class="nav-link" href="{{ url('patrons')}}">Patroni</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" href="{{ url('about-us')}}">O nas</a>
+            </li>
+           
+        </ul>
+  {% endblock %}
+
+ {% block containerType %}
+     {{include("includes/shared-includes/custom-container-fluid.html.twig")}}
+  {% endblock %}
+
+    {% block header %}
+        {{include("includes/main-pages-includes/videos-title.html.twig")}}
+    {% endblock %}
+
+    {% block pageFeatures %}
+        {{ include ("includes/main-pages-includes/videos-main-section.html.twig")}}
+    {% endblock %}
+
+  {% block elasticSearchingXs %}
+    {{include("includes/shared-includes/elastic-searching-xs.html.twig")}}
+  {% endblock %}
+
+ {% block elasticSearchingLg %}
+    {{include("includes/shared-includes/elastic-searching-lg.html.twig")}}
+  {% endblock %}

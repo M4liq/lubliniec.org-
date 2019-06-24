@@ -1,0 +1,215 @@
+
+{% extends "pages/admin-page/admin-main-page.html.twig" %}
+
+{% block customCss %}
+   <link href="{{asset ('/frontend/css/resources.css') }}" rel="stylesheet">
+   <link href="{{asset ('/frontend/css/scalable-searching.css') }}" rel="stylesheet">
+
+  <!-- Font awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+{% endblock %}
+
+{% block breadcrumbs %}
+ 
+
+{% endblock %}
+
+{% block pageContents %}
+  <!-- Page Content -->
+  <div class="container">
+
+    <div class="row">
+      
+      <div class="col-12">
+        <h1 class="text-center">Zarządzaj zasobami - artykuły</h1>
+    
+
+      <div class="input-group col-8 offset-2 pt-2 pb-2 pb-lg-0">
+                      
+            <input type="text" class="form-control mr-1 mb-2" placeholder="Wpisz interesującą Cię frazę...">
+              <span class="input-group-btn">
+              <button class="btn btn-secondary" type="button">Szukaj</button>
+            </span>
+      </div>
+         <!--Scalable searching -->
+           <!--block classes availiable for styling in particular page custom css -->
+
+           <div class="col-8 offset-3 py-2 text-center">
+                  <!-- block starts here-->
+                   <div class="col-12 scalable-searching justify-content-center ">
+
+                       <div class="col-12 category category-1 text-center" >
+                         
+                          <div class="col-12 category category-1 text-center" >
+                              <ul class="list-unstyled pb-2 mb-0" >
+                                <!-- Color temporary set in css-->
+                                {% block articlesLabel %}
+                                  <li class="resources-list" > 
+                                    <a href="{{url ("articles-table")}}">Artykuły</a>
+                                  </li>
+                                {% endblock %}
+                                 {% block videosLabel %}
+                                  <li class="resources-list">
+                                    <a href="{{url ("videos-table")}}"  >Wideo</a>
+                                  </li>
+                                {% endblock %}
+                                {% block photosLabel %}
+                                  <li class="resources-list">
+                                    <a href="{{url ("photos-table")}}">Zdjęcia</a>
+                                  </li>
+                                {% endblock %}
+                                {% block sourcesLabel %}
+                                <li class="resources-list">
+                                  <a href="{{url ("sources-table")}}"  value="sources-table">Źródła</a>
+                                </li>
+                                {% endblock %}
+                              </ul>
+                            </div>
+                        </div>
+        
+                  </div>
+                 </div>
+                 <div style="clear: both"></div>
+        <div class="col-8 offset-2 category text-center" >
+            <ul class="list-unstyled pb-2 mb-0" >
+              <li > 
+                  Usuń Zaznaczone
+                  <i class="fas fa-trash-alt p-1"></i>  
+              </li>
+              {% block resourceAdd0 %}
+              <li class="add add-1">
+                   <a href="{{url ("article-adding")}}">Dodaj
+                    <i class="fas fa-plus-square p-1"></i>
+                  </a>
+              </li>
+              {% endblock %}
+              {% block resourceEdit0 %}
+              <li class="add edit-1" >
+                 Edytuj
+                  <i class="fas fa-edit p-1"></i>
+              </li>
+              {% endblock %}
+              <li class="select-all">
+                  Zaznacz wszystkie 
+                  <i class="far fa-check-square  p-1 select-all"></i>
+              </li>
+              <li class="unselect-all">
+                  Odznacz wszystkie
+                  <i class="far fa-square  p-1 "></i>
+              </li>
+              
+            </ul>
+          </div>
+
+        </div>
+        {% block resourcesTable %}
+          <div class="col-12 pb-3 resources-table">
+                <table class="table table-hover">
+                        <thead >
+                          <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Tytuł</th>
+                            <th scope="col">Autor</th>
+                            <th scope="col">Data</th>
+                            <th scope="col">Tekst</th>
+                            <th scope="col">Zdjęcie</th>
+                            <th scope="col">Zaznacz</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <th scope="row">1</th>
+                            <td class="list-element">Otto</td>
+                            <td class="list-element">Mark</td>
+                            <td class="list-element">01.01.1970</td>
+                            <td class="list-element-big">Loerm ipsum ...</td>
+                            <td class="list-element-builded-input"><input type="file"></input></td>
+                            <td> 
+                                <label class="container-checkbox">
+                                <input type="checkbox">
+                                <span class="checkmark"></span>
+                              </label>
+                            </td>
+                          </tr>
+                          <tr>
+                            <th scope="row">2</th>
+                            <td class="list-element">Otto</td>
+                            <td class="list-element">Mark</td>
+                            <td class="list-element">01.01.1970</td>
+                            <td class="list-element-big">Loerm ipsum ...</td>
+                            <td class="list-element-builded-input"><input type="file"></input></td>
+                            <td> 
+                                <label class="container-checkbox">
+                                <input type="checkbox">
+                                <span class="checkmark"></span>
+                              </label>
+                            </td>
+                          </tr>
+                          <tr>
+                            <th scope="row">3</th>
+                            <td class="list-element">Otto</td>
+                            <td class="list-element">Mark</td>
+                            <td class="list-element">01.01.1970</td>
+                            <td class="list-element-big">Loerm ipsum ...</td>
+                            <td class="list-element-builded-input"><input type="file"></input></td>
+                            <td> 
+                                <label class="container-checkbox">
+                                <input type="checkbox">
+                                <span class="checkmark"></span>
+                              </label>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+          </div>
+        {% endblock %}
+          <div class=" col-8 offset-2 category text-center" >
+              <ul class="list-unstyled pb-2 mb-0" >
+                <li> 
+                    Usuń Zaznaczone
+                    <i class="fas fa-trash-alt p-1"></i>  
+                </li>
+                 {% block resourceAdd1 %}
+              <li class="add add-1">
+                   <a href="{{url ("article-adding")}}">Dodaj
+                    <i class="fas fa-plus-square p-1"></i>
+                  </a>
+              </li>
+              {% endblock %}
+              {% block resourceEdit1 %}
+              <li class="add edit-1" >
+                 Edytuj
+                  <i class="fas fa-edit p-1"></i>
+              </li>
+              {% endblock %}
+                <li>
+                    Zaznacz wszystkie 
+                    <i class="far fa-check-square  p-1"></i>
+                </li>
+                <li>
+                    Odznacz wszystkie
+                    <i class="far fa-square  p-1"></i>
+                </li>
+                
+              </ul>
+              
+            </div>
+
+     </div>
+    </div>
+    <!-- /.row -->
+
+  </div>
+  <!-- /.container -->
+{% endblock %}
+
+{% block customJs %}
+ 
+  <!-- Custom Js-->
+
+   <script src="{{asset ('frontend/js/category.js')}}"></script>
+{% endblock %}
+
+
+  
+

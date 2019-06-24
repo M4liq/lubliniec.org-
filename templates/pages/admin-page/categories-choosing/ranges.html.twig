@@ -1,0 +1,140 @@
+
+{% extends "pages/admin-page/admin-main-page.html.twig"%}
+{% block customCss %}
+   <link href="{{asset ('/frontend/css/scalable-searching.css') }}" rel="stylesheet">
+   <link href="{{asset ('/frontend/css/category.css') }}" rel="stylesheet">
+   
+{% endblock %}
+
+{% block breadcrumbs %}
+   <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="{{url("admin")}}">Start</a>
+          </li>
+          <li class="breadcrumb-item active" id="jquery-bread">Edycja Przedziałów Czasowych</li>
+        </ol>
+
+{% endblock %}
+{% block pageContents %}
+  <!-- Page Content -->
+  <div class="container container-main">
+
+    <div class="row">
+      
+      <div class="col-12" >
+        <h1>Edytuj Przedziały Czasowe</h1>
+      </div>
+
+      <div class="input-group col-6 pt-2 pb-2 pb-lg-0">
+                      
+          <input type="text" class="form-control mr-1 mb-2" placeholder="Wpisz interesującą Cię frazę...">
+            <span class="input-group-btn">
+            <button class="btn btn-secondary" type="button">Szukaj</button>
+          </span>
+
+        </div>
+        
+        <div class="col-12 category text-center" >
+            <ul class="list-unstyled pb-2 mb-0" >
+              <li > 
+                  Usuń Zaznaczone
+                  <i class="fas fa-trash-alt p-1"></i>  
+              </li>
+              <li class="add">
+                  Dodaj
+                  <i class="fas fa-edit p-1"></i>
+              </li>
+              <li class="select-all">
+                  Zaznacz wszystkie 
+                  <i class="far fa-check-square  p-1"></i>
+              </li>
+              <li  class="unselect-all">
+                  Odznacz wszystkie
+                  <i class="far fa-square  p-1"></i>
+              </li>
+              
+            </ul>
+          </div>
+          <div class="col-7 pb-3">
+            <ul class="list-group text-center">
+              <li class="list-group-item active ">Kategorie obecne w serwisie</li>
+              <li class="list-group-item list-group-item-action px-5">
+                  <span class="list-element" value="0">1800</span>-
+                  <span class="list-element" value="1">1800</span>
+                <label class="container-checkbox">
+                    <input type="checkbox" class="category-element">
+                    <span class="checkmark"></span>
+                  </label>
+
+              </li>
+              <li class="list-group-item list-group-item-action  px-5">
+                    <span class="list-element" value="0">1800</span>-
+                    <span class="list-element" value="1">1800</span>
+                    <label class="container-checkbox">
+                      <input type="checkbox" class="category-element">
+                      <span class="checkmark"></span>
+                    </label>
+              </li>
+              <li class="list-group-item list-group-item-action px-5">
+                <span class="list-element" value="0">1800</span>-
+                <span class="list-element" value="1">1800</span>
+                  <label class="container-checkbox">
+                      <input type="checkbox" class="category-element">
+                      <span class="checkmark"></span>
+                    </label>
+              </li>
+              <li class="list-group-item list-group-item-action  px-5">
+                  <span class="list-element" value="0">1800</span>-
+                  <span class="list-element" value="1">1800</span>
+                    <label class="container-checkbox">
+                      <input type="checkbox" class="category-element">
+                      <span class="checkmark"></span>
+                    </label>
+              </li>
+              <li class="list-group-item list-group-item-action px-5">
+                  <span class="list-element" value="0">1800</span>-
+                  <span class="list-element" value="1">1800</span>
+                  <label class="container-checkbox">
+                      <input type="checkbox" class="category-element">
+                      <span class="checkmark"></span>
+                    </label>
+              </li>
+             
+               
+              
+            </ul>
+          </div>
+
+          <div class="col-12 category text-center" >
+              <ul class="list-unstyled pb-2 mb-0" >
+                <li > 
+                    Usuń Zaznaczone
+                    <i class="fas fa-trash-alt p-1"></i>  
+                </li>
+                <li class="add" >
+                    Dodaj
+                    <i class="fas fa-edit p-1"></i>
+                </li>
+                <li>
+                    Zaznacz wszystkie 
+                    <i class="far fa-check-square  p-1"></i>
+                </li>
+                <li>
+                    Odznacz wszystkie
+                    <i class="far fa-square  p-1"></i>
+                </li>
+                
+              </ul>
+            </div>
+
+     </div>
+    </div>
+    <!-- /.row -->
+
+  </div>
+  <!-- /.container -->
+{% endblock %}
+{% block customJs %}
+   <script src="{{asset ('frontend/js/category.js')}}"></script>
+  {% endblock %}

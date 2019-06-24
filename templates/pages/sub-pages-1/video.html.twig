@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block customStylesheet %}
+  <link href="{{ asset ('frontend/css/scalable-searching.css')}}" rel="stylesheet">
+  <link href="{{asset ('frontend/css/video.css')}}" rel="stylesheet">
+{% endblock %}
+
+{% block description %}
+
+{% endblock %}
+
+
+
+{% block navitems %}
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Tytuł Filmu
+                 <span class="sr-only">(Current)</span>
+              </a>
+            </li>
+             <li class="nav-item">
+               <a class="nav-link" href="{{url("photos")}}">Powrót </a>
+            </li>
+          </li>
+           
+        </ul>
+  {% endblock %}
+
+ {% block containerType %}
+     {{include("includes/shared-includes/custom-container-fluid.html.twig")}}
+  {% endblock %}
+
+ {% block rowType %}
+        {{include("includes/sub-pages-includes-1/photo-row-type.html.twig")}}
+    {% endblock %}
+
+{% block pageFeatures %}
+    {{include("includes/sub-pages-includes-1/video-main-section.html.twig")}}
+  {% endblock %}
+
+{% block comments %}
+    {{include("includes/shared-includes/comments-narrowed.html.twig")}}
+  {% endblock %}
+
+  {% block elasticSearchingXsLower %}
+    {{include("includes/shared-includes/elastic-searching-xs-wrapped.html.twig")}}
+  {% endblock %}
+
+ {% block elasticSearchingLg %}
+    {{include("includes/shared-includes/elastic-searching-lg-narrowed.html.twig")}}
+  {% endblock %}

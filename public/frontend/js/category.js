@@ -18,9 +18,17 @@ $(document).on("click", ".list-element",function(){
 
   $(".add").click(function(){
     if(!used)
-    {
+    { 
+      
         var toDisplay =  '<li class="list-group-item list-group-item-action px-5">';
-         toDisplay = toDisplay + '<span class="list-element" value="4"> Nowa Kategoria ... </span>';
+        if($(".ranges-group")[0])
+        {
+         toDisplay = toDisplay + '<span class="list-element" value="4"> Początek przedziału </span>';
+         toDisplay = toDisplay + ' -';
+         toDisplay = toDisplay + '<span class="list-element" value="4"> Koniec przedziału </span>';
+        }
+        else 
+        toDisplay = toDisplay + '<span class="list-element" value="4"> Nowy element... </span>';
          toDisplay = toDisplay +  '<label class="container-checkbox">';
          toDisplay = toDisplay +  '<input type="checkbox" class="category-element">';
          toDisplay = toDisplay +  '<span class="checkmark"></span>';

@@ -4,15 +4,48 @@
      <a href="{{url ("videos-table")}}"  >Wideo</a>
  </li>
 {% endblock %}
+{% block resourcesName %}
+        <h2 class="text-center">Wideo</h2>
+      {% endblock %}
 {% block breadcrumbs %}
  <ol class="breadcrumb">
           <li class="breadcrumb-item">
             <a href="{{url("admin")}}">Start</a>
           </li>
           <li class="breadcrumb-item" id="jquery-bread">Zasoby</li>
-          <li class="breadcrumb-item active" id="jquery-bread">Edycja Wideo</li>
+          <li class="breadcrumb-item active" id="jquery-bread">Wideo</li>
         </ol>
 {% endblock %}
+ {% block resourceAdd0 %}
+              <li class="add add-1">
+                   <a href="{{url ("video-adding")}}">Dodaj
+                    <i class="fas fa-plus-square p-1"></i>
+                  </a>
+              </li>
+              {% endblock %}
+   {% block resourceAdd1 %}
+              <li class="add add-1">
+                   <a href="{{url ("video-adding")}}">Dodaj
+                    <i class="fas fa-plus-square p-1"></i>
+                  </a>
+              </li>
+    {% endblock %}
+   {% block resourceEdit0 %}
+              <li class="add edit-1" >
+                <a href="{{url ("video-editing")}}"> Edytuj
+                  <i class="fas fa-edit p-1"></i>
+                </a>
+              </li>
+      {% endblock %}
+
+      {% block resourceEdit1 %}
+         <li class="add edit-1" >
+          <a href="{{url ("video-editing")}}"> Edytuj
+               <i class="fas fa-edit p-1"></i>
+            </a>
+        </li>
+      {% endblock %}
+
 {% block resourcesTable %} 
  
  

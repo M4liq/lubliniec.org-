@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block customStylesheet %}
+  <link href="{{ asset ('frontend/css/scalable-searching.css')}}" rel="stylesheet">
+  <link href="{{asset ('frontend/css/blog-articles.css')}}" rel="stylesheet">
+{% endblock %}
+
+{% block description %}
+
+{% endblock %}
+
+
+
+{% block navitems %}
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item ">
+            <a class="nav-link" href="{{ url('index')}}">Start</a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="{{ url('articles')}}">Artykuły</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url('photos')}}">Zdjęcia</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url('videos')}}">Materiały Video</a>
+          </li>
+
+           <li class="nav-item">
+              <a class="nav-link " href="{{ url('sources')}}">Źródła</a>
+              
+            </li>
+
+           <li class="nav-item">
+            <a class="nav-link " href="{{ url('patrons')}}">Patroni</a>
+           
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" href="{{ url('about-us')}}">O nas</a>
+              
+            </li>
+           
+        </ul>
+  {% endblock %}
+
+    {% block pageFeatures %}
+        {{ include ("includes/main-pages-includes/terms-main-section.html.twig")}}
+    {% endblock %}

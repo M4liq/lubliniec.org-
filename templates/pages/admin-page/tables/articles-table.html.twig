@@ -1,12 +1,14 @@
 {% extends 'pages/admin-page/categories-choosing/resources.html.twig' %}
-
+{% block resourcesName %}
+        <h2 class="text-center">Artykuły</h2>
+      {% endblock %}
 {% block breadcrumbs %}
  <ol class="breadcrumb">
           <li class="breadcrumb-item">
             <a href="{{url("admin")}}">Start</a>
           </li>
           <li class="breadcrumb-item" id="jquery-bread">Zasoby</li>
-          <li class="breadcrumb-item active" id="jquery-bread">Edycja Artykułów</li>
+          <li class="breadcrumb-item active" id="jquery-bread">Artykuły</li>
         </ol>
 {% endblock %}
 
@@ -15,6 +17,21 @@
      <a href="{{url ("articles-table")}}">Artykuły</a>
    </li>
 {% endblock %}
+ {% block resourceEdit0 %}
+              <li class="add edit-1" >
+                <a href="{{url ("article-editing")}}"> Edytuj
+                  <i class="fas fa-edit p-1"></i>
+                </a>
+              </li>
+      {% endblock %}
+
+      {% block resourceEdit1 %}
+         <li class="add edit-1" >
+          <a href="{{url ("article-editing")}}"> Edytuj
+               <i class="fas fa-edit p-1"></i>
+            </a>
+        </li>
+      {% endblock %}
 
 {% block resourcesTable %}
  <div class="col-12 pb-3 resources-table">

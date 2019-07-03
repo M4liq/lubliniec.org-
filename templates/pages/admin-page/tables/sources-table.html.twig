@@ -4,16 +4,25 @@
         <a href="{{url ("sources-table")}}"  value="sources-table">Źródła</a>
    </li>
   {% endblock %}
-
+  {% block resourcesName %}
+        <h2 class="text-center">Źródła</h2>
+      {% endblock %}
   {% block breadcrumbs %}
  <ol class="breadcrumb">
           <li class="breadcrumb-item">
             <a href="{{url("admin")}}">Start</a>
           </li>
           <li class="breadcrumb-item" id="jquery-bread">Zasoby</li>
-          <li class="breadcrumb-item active" id="jquery-bread">Edycja Źródeł</li>
+          <li class="breadcrumb-item active" id="jquery-bread">Źródła</li>
         </ol>
 {% endblock %}
+
+ {% block resourceAdd0 %}
+             
+     {% endblock %}
+   {% block resourceAdd1 %}
+             
+    {% endblock %}
 
 {% block resourcesTable %}
    
@@ -37,7 +46,7 @@
                             <td class="list-element">Otto</td>
                             <td class="list-element">Mark</td>
                             <td class="list-element">01.01.1970</td>
-                            <td class="list-element-big">Loerm ipsum ...</td>
+                            <td class="list-element">Loerm ipsum ...</td>
                           
                             <td> 
                                 <label class="container-checkbox">
@@ -51,7 +60,7 @@
                             <td class="list-element">Otto</td>
                             <td class="list-element">Mark</td>
                             <td class="list-element">01.01.1970</td>
-                            <td class="list-element-big">Loerm ipsum ...</td>
+                            <td class="list-element ">Loerm ipsum ...</td>
                            
                             <td> 
                                 <label class="container-checkbox">
@@ -65,7 +74,7 @@
                             <td class="list-element">Otto</td>
                             <td class="list-element">Mark</td>
                             <td class="list-element">01.01.1970</td>
-                            <td class="list-element-big">Loerm ipsum ...</td>
+                            <td class="list-element">Loerm ipsum ...</td>
                        
                             <td> 
                                 <label class="container-checkbox">

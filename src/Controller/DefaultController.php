@@ -20,6 +20,17 @@ class DefaultController extends AbstractController
         return $this->render("pages/main-pages/index.html.twig");
 
     }
+    
+     /**
+     * @Route("/regulamin", name="terms")
+     */
+
+    public function terms()
+    {
+
+        return $this->render("pages/main-pages/terms.html.twig");
+
+    }
 
     /**
      * @Route("/artykuly", name="articles")
@@ -216,6 +227,7 @@ class DefaultController extends AbstractController
         return $this->render("pages/admin-page/categories-choosing/categories.html.twig");
 
     } 
+
        /**
      * @Route("/admin/zasoby/dodawanie-artykulu", name="article-adding")
      */
@@ -223,21 +235,64 @@ class DefaultController extends AbstractController
     public function articleAdding()
     {
 
-        return $this->render("pages/admin-page/modifications/add/article-adding.html.twig");
+        return $this->render("pages/admin-page/modifications/article-adding-editing.html.twig");
 
     } 
 
-     /**
-     * @Route("/admin/zasoby", name="resources")
+    /**
+     * @Route("/admin/zasoby/dodawanie-zdjecia", name="photo-adding")
      */
 
-    public function resources()
+    public function photoAdding()
     {
 
-        return $this->render("pages/admin-page/categories-choosing/resources.html.twig");
+        return $this->render("pages/admin-page/modifications/photo-adding-editing.html.twig");
 
     } 
 
+    /**
+     * @Route("/admin/zasoby/dodawanie-filmu", name="video-adding")
+     */
+
+    public function videoAdding()
+    {
+
+        return $this->render("pages/admin-page/modifications/video-adding-editing.html.twig");
+
+    } 
+
+       /**
+     * @Route("/admin/zasoby/edycja-artykulu/tytul", name="article-editing")
+     */
+
+    public function articleEditing()
+    {
+
+        return $this->render("pages/admin-page/modifications/article-adding-editing.html.twig");
+
+    } 
+
+    /**
+     * @Route("/admin/zasoby/edycja-zdjecia/tytul", name="photo-editing")
+     */
+
+    public function photoEditing()
+    {
+
+        return $this->render("pages/admin-page/modifications/photo-adding-editing.html.twig");
+
+    } 
+
+    /**
+     * @Route("/admin/zasoby/edytowanie-filmu/tytul", name="video-editing")
+     */
+
+    public function videoEditing()
+    {
+
+        return $this->render("pages/admin-page/modifications/video-adding-editing.html.twig");
+
+    } 
 
 
 }

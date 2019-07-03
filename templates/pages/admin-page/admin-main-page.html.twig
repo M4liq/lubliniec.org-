@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 
   <meta charset="utf-8">
@@ -10,16 +9,19 @@
   <meta name="author" content="">
 
   <title>SB Admin - Dashboard</title>
-
+  {% block basicCssLibs %}
   <!-- Custom fonts for this template-->
   <link href="{{asset ('frontend/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
  <!-- Bootstrap core CSS -->
   <link href="{{asset ('/frontend/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+  {% endblock %}
   <link href="{{asset ('/frontend/css/sb-admin.css') }}" rel="stylesheet">
+  
    <link href="{{asset ('/frontend/css/admin.css') }}" rel="stylesheet">
   {% block customCss %}
-  {% endblock %}
-
+ {% endblock %}
+{% block editorLiberies %}
+ {% endblock %}
 
 </head>
 
@@ -81,25 +83,26 @@
     <div id="content-wrapper">
 
       <div class="container-fluid">
+        <div class="row">
+              <!-- Breadcrumbs-->
+            {% block breadcrumbs %}
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                  <a href="#">Dashboard</a>
+                </li>
+              </ol>
+            {% endblock %}   
+      
+            <!-- /.container-fluid -->
 
-        <!-- Breadcrumbs-->
-      {% block breadcrumbs %}
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item">
-            <a href="#">Dashboard</a>
-          </li>
-        </ol>
-      {% endblock %}   
-      </div>
-      <!-- /.container-fluid -->
-
-      {% block pageContents %}
-         <div class=" text-center col-12">
-                <h1 class=" mb-4">Witaj !</h1>
-                <small>Wybierz elementy serwisu które chcesz edytować</small>
-              </div>
-      {% endblock %}
-
+            {% block pageContents %}
+              <div class=" text-center col-12">
+                      <h1 class=" mb-4">Witaj !</h1>
+                      <small>Wybierz elementy serwisu które chcesz edytować</small>
+                    </div>
+            {% endblock %}
+          </div>
+    </div>
 
       <!-- Sticky Footer -->
       <footer class="sticky-footer">
@@ -141,9 +144,11 @@
   </div>
 
    <!-- Bootstrap core JavaScript -->
-  
-  <script src="{{asset ('frontend/vendor/jquery/jquery.min.js')}}"></script>
+  {% block basicJsLibs %}
+   <script src="{{asset ('frontend/vendor/jquery/jquery.min.js')}}"></script>
   <script src="{{asset ('frontend/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+  {% endblock %}
+ 
   <script src="{{asset ('frontend/js/sb-admin.min.js')}}"></script>
   <script src="{{asset ('frontend/js/admin.js')}}"></script>
   {% block customJs %}

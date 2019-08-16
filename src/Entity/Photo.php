@@ -2,14 +2,12 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\VideoRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\PhotoRepository")
  */
-class Video
+class Photo
 {
     /**
      * @ORM\Id()
@@ -19,32 +17,24 @@ class Video
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\user", inversedBy="video_id")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="App\Entity\user", inversedBy="photo_id")
      */
     private $user_id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\range", inversedBy="videos_id")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="App\Entity\range", inversedBy="photo_id")
      */
     private $range_id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\place", inversedBy="place_id")
+     * @ORM\ManyToOne(targetEntity="App\Entity\place", inversedBy="photo_id")
      */
     private $place_id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\author", inversedBy="video_id")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="App\Entity\author", inversedBy="photo_id")
      */
     private $author_id;
-
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\source", inversedBy="video_id")
-     */
-    private $source_id;
 
     /**
      * @ORM\Column(type="date")
@@ -52,17 +42,17 @@ class Video
     private $date;
 
     /**
-     * @ORM\Column(type="boolean", nullable=true)
+     * @ORM\Column(type="boolean")
      */
     private $orientation_date;
 
     /**
-     * @ORM\Column(type="string", length=60)
+     * @ORM\Column(type="string", length=60, nullable=true)
      */
     private $title;
 
     /**
-     * @ORM\Column(type="string", length=10, nullable=true)
+     * @ORM\Column(type="string", length=15, nullable=true)
      */
     private $format;
 
@@ -97,19 +87,19 @@ class Video
     private $lastest_modification;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=60, nullable=true)
      */
     private $topic;
 
     /**
-     * @ORM\Column(type="boolean", nullable=true)
+     * @ORM\Column(type="boolean")
      */
     private $publicated;
 
-    public function __construct()
-    {
-        $this->source_id = new ArrayCollection();
-    }
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\category", inversedBy="photo_id")
+     */
+    private $category_id;
 
     public function getId(): ?int
     {
@@ -164,32 +154,6 @@ class Video
         return $this;
     }
 
-    /**
-     * @return Collection|source[]
-     */
-    public function getSourceId(): Collection
-    {
-        return $this->source_id;
-    }
-
-    public function addSourceId(source $sourceId): self
-    {
-        if (!$this->source_id->contains($sourceId)) {
-            $this->source_id[] = $sourceId;
-        }
-
-        return $this;
-    }
-
-    public function removeSourceId(source $sourceId): self
-    {
-        if ($this->source_id->contains($sourceId)) {
-            $this->source_id->removeElement($sourceId);
-        }
-
-        return $this;
-    }
-
     public function getDate(): ?\DateTimeInterface
     {
         return $this->date;
@@ -207,7 +171,7 @@ class Video
         return $this->orientation_date;
     }
 
-    public function setOrientationDate(?bool $orientation_date): self
+    public function setOrientationDate(bool $orientation_date): self
     {
         $this->orientation_date = $orientation_date;
 
@@ -219,7 +183,7 @@ class Video
         return $this->title;
     }
 
-    public function setTitle(string $title): self
+    public function setTitle(?string $title): self
     {
         $this->title = $title;
 
@@ -315,7 +279,7 @@ class Video
         return $this->topic;
     }
 
-    public function setTopic(string $topic): self
+    public function setTopic(?string $topic): self
     {
         $this->topic = $topic;
 
@@ -327,9 +291,21 @@ class Video
         return $this->publicated;
     }
 
-    public function setPublicated(?bool $publicated): self
+    public function setPublicated(bool $publicated): self
     {
         $this->publicated = $publicated;
+
+        return $this;
+    }
+
+    public function getCategoryId(): ?category
+    {
+        return $this->category_id;
+    }
+
+    public function setCategoryId(?category $category_id): self
+    {
+        $this->category_id = $category_id;
 
         return $this;
     }

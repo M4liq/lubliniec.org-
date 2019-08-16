@@ -180,7 +180,7 @@ bin/console doctrine:migrations:migrate - executing prepared migration
 		
 	 Olny in controllers is possible to access external objects in methods diffrent than __construct.	
 	 
-6. Advanced Routes:
+6. Advanced Rout0es:
 		
 	Examples:
 	1.
@@ -385,7 +385,7 @@ bin/console doctrine:migrations:migrate - executing prepared migration
 							);	
 
 								*********************************
-												displaying all records
+								displaying all records
 								*********************************
 								$users = $repository -> findAll();
 								

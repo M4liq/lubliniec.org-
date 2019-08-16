@@ -28,9 +28,21 @@ class Place
      */
     private $place_id;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Photo", mappedBy="place_id")
+     */
+    private $photo_id;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Article", mappedBy="place_id")
+     */
+    private $article_id;
+
     public function __construct()
     {
         $this->place_id = new ArrayCollection();
+        $this->photo_id = new ArrayCollection();
+        $this->article_id = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -75,6 +87,68 @@ class Place
             // set the owning side to null (unless already changed)
             if ($placeId->getPlaceId() === $this) {
                 $placeId->setPlaceId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Photo[]
+     */
+    public function getPhotoId(): Collection
+    {
+        return $this->photo_id;
+    }
+
+    public function addPhotoId(Photo $photoId): self
+    {
+        if (!$this->photo_id->contains($photoId)) {
+            $this->photo_id[] = $photoId;
+            $photoId->setPlaceId($this);
+        }
+
+        return $this;
+    }
+
+    public function removePhotoId(Photo $photoId): self
+    {
+        if ($this->photo_id->contains($photoId)) {
+            $this->photo_id->removeElement($photoId);
+            // set the owning side to null (unless already changed)
+            if ($photoId->getPlaceId() === $this) {
+                $photoId->setPlaceId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Article[]
+     */
+    public function getArticleId(): Collection
+    {
+        return $this->article_id;
+    }
+
+    public function addArticleId(Article $articleId): self
+    {
+        if (!$this->article_id->contains($articleId)) {
+            $this->article_id[] = $articleId;
+            $articleId->setPlaceId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeArticleId(Article $articleId): self
+    {
+        if ($this->article_id->contains($articleId)) {
+            $this->article_id->removeElement($articleId);
+            // set the owning side to null (unless already changed)
+            if ($articleId->getPlaceId() === $this) {
+                $articleId->setPlaceId(null);
             }
         }
 

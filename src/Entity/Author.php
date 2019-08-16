@@ -38,10 +38,22 @@ class Author
      */
     private $video_id;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Photo", mappedBy="author_id")
+     */
+    private $photo_id;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Article", mappedBy="author_id")
+     */
+    private $article_id;
+
     public function __construct()
     {
         $this->source_id = new ArrayCollection();
         $this->video_id = new ArrayCollection();
+        $this->photo_id = new ArrayCollection();
+        $this->article_id = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -126,6 +138,68 @@ class Author
             // set the owning side to null (unless already changed)
             if ($videoId->getAuthorId() === $this) {
                 $videoId->setAuthorId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Photo[]
+     */
+    public function getPhotoId(): Collection
+    {
+        return $this->photo_id;
+    }
+
+    public function addPhotoId(Photo $photoId): self
+    {
+        if (!$this->photo_id->contains($photoId)) {
+            $this->photo_id[] = $photoId;
+            $photoId->setAuthorId($this);
+        }
+
+        return $this;
+    }
+
+    public function removePhotoId(Photo $photoId): self
+    {
+        if ($this->photo_id->contains($photoId)) {
+            $this->photo_id->removeElement($photoId);
+            // set the owning side to null (unless already changed)
+            if ($photoId->getAuthorId() === $this) {
+                $photoId->setAuthorId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Article[]
+     */
+    public function getArticleId(): Collection
+    {
+        return $this->article_id;
+    }
+
+    public function addArticleId(Article $articleId): self
+    {
+        if (!$this->article_id->contains($articleId)) {
+            $this->article_id[] = $articleId;
+            $articleId->setAuthorId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeArticleId(Article $articleId): self
+    {
+        if ($this->article_id->contains($articleId)) {
+            $this->article_id->removeElement($articleId);
+            // set the owning side to null (unless already changed)
+            if ($articleId->getAuthorId() === $this) {
+                $articleId->setAuthorId(null);
             }
         }
 

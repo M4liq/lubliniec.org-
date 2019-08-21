@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+
+<title>Edit ArticleSection</title>
+
+{% block body %}
+    <h1>Edit ArticleSection</h1>
+
+    {{ include('article_section/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('article_section_index') }}">back to list</a>
+
+    {{ include('article_section/_delete_form.html.twig') }}
+{% endblock %}

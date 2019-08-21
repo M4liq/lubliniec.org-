@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Photo{% endblock %}
+
+{% block body %}
+    <h1>Photo</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ photo.id }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ photo.date ? photo.date|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Orientation_date</th>
+                <td>{{ photo.orientationDate ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ photo.title }}</td>
+            </tr>
+            <tr>
+                <th>Format</th>
+                <td>{{ photo.format }}</td>
+            </tr>
+            <tr>
+                <th>Size</th>
+                <td>{{ photo.size }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ photo.description }}</td>
+            </tr>
+            <tr>
+                <th>Path</th>
+                <td>{{ photo.path }}</td>
+            </tr>
+            <tr>
+                <th>Adding_date</th>
+                <td>{{ photo.addingDate ? photo.addingDate|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Subtitle</th>
+                <td>{{ photo.subtitle }}</td>
+            </tr>
+            <tr>
+                <th>Lastest_modification</th>
+                <td>{{ photo.lastestModification ? photo.lastestModification|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Topic</th>
+                <td>{{ photo.topic }}</td>
+            </tr>
+            <tr>
+                <th>Publicated</th>
+                <td>{{ photo.publicated ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('photo_index') }}">back to list</a>
+
+    <a href="{{ path('photo_edit', {'id': photo.id}) }}">edit</a>
+
+    {{ include('photo/_delete_form.html.twig') }}
+{% endblock %}

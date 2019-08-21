@@ -19,30 +19,25 @@ class Video
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\user", inversedBy="video_id")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="video_id")
      * @ORM\JoinColumn(nullable=false)
      */
     private $user_id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\range", inversedBy="videos_id")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $range_id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\place", inversedBy="place_id")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Place", inversedBy="place_id")
      */
     private $place_id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\author", inversedBy="video_id")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Author", inversedBy="video_id")
      * @ORM\JoinColumn(nullable=false)
      */
     private $author_id;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\source", inversedBy="video_id")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Source", inversedBy="video_id")
      */
     private $source_id;
 
@@ -106,6 +101,11 @@ class Video
      */
     private $publicated;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Period", inversedBy="video_id")
+     */
+    private $period_id;
+
     public function __construct()
     {
         $this->source_id = new ArrayCollection();
@@ -124,18 +124,6 @@ class Video
     public function setUserId(?user $user_id): self
     {
         $this->user_id = $user_id;
-
-        return $this;
-    }
-
-    public function getRangeId(): ?range
-    {
-        return $this->range_id;
-    }
-
-    public function setRangeId(?range $range_id): self
-    {
-        $this->range_id = $range_id;
 
         return $this;
     }
@@ -330,6 +318,18 @@ class Video
     public function setPublicated(?bool $publicated): self
     {
         $this->publicated = $publicated;
+
+        return $this;
+    }
+
+    public function getPeriodId(): ?Period
+    {
+        return $this->period_id;
+    }
+
+    public function setPeriodId(?Period $period_id): self
+    {
+        $this->period_id = $period_id;
 
         return $this;
     }

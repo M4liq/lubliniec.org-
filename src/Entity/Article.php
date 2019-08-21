@@ -39,11 +39,6 @@ class Article
     private $place_id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Range", inversedBy="article_id")
-     */
-    private $range_id;
-
-    /**
      * @ORM\Column(type="string", length=60)
      */
     private $title;
@@ -84,7 +79,7 @@ class Article
     private $publicated;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\ArticleSection", mappedBy="article_id", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\ArticleSection", mappedBy="article_id", orphanRemoval=true, cascade={"persist"})
      */
     private $article_section_id;
 
@@ -92,6 +87,14 @@ class Article
      * @ORM\OneToMany(targetEntity="App\Entity\ArticlePhoto", mappedBy="article_id", orphanRemoval=true)
      */
     private $article_photo_id;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Period", inversedBy="article_id")
+     */
+    private $period_id;
+
+    
+ 
 
     public function __construct()
     {
@@ -152,17 +155,7 @@ class Article
         return $this;
     }
 
-    public function getRangeId(): ?range
-    {
-        return $this->range_id;
-    }
 
-    public function setRangeId(?range $range_id): self
-    {
-        $this->range_id = $range_id;
-
-        return $this;
-    }
 
     public function getTitle(): ?string
     {
@@ -321,4 +314,19 @@ class Article
 
         return $this;
     }
+
+    public function getPeriodId(): ?Period
+    {
+        return $this->period_id;
+    }
+
+    public function setPeriodId(?Period $period_id): self
+    {
+        $this->period_id = $period_id;
+
+        return $this;
+    }
+
+
+
 }

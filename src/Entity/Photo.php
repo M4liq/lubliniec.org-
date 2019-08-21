@@ -17,22 +17,19 @@ class Photo
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\user", inversedBy="photo_id")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="photo_id")
      */
     private $user_id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\range", inversedBy="photo_id")
-     */
-    private $range_id;
+
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\place", inversedBy="photo_id")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Place", inversedBy="photo_id")
      */
     private $place_id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\author", inversedBy="photo_id")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Author", inversedBy="photo_id")
      */
     private $author_id;
 
@@ -97,9 +94,14 @@ class Photo
     private $publicated;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\category", inversedBy="photo_id")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="photo_id")
      */
     private $category_id;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Period", inversedBy="photo_id")
+     */
+    private $period_id;
 
     public function getId(): ?int
     {
@@ -118,17 +120,6 @@ class Photo
         return $this;
     }
 
-    public function getRangeId(): ?range
-    {
-        return $this->range_id;
-    }
-
-    public function setRangeId(?range $range_id): self
-    {
-        $this->range_id = $range_id;
-
-        return $this;
-    }
 
     public function getPlaceId(): ?place
     {
@@ -306,6 +297,18 @@ class Photo
     public function setCategoryId(?category $category_id): self
     {
         $this->category_id = $category_id;
+
+        return $this;
+    }
+
+    public function getPeriodId(): ?Period
+    {
+        return $this->period_id;
+    }
+
+    public function setPeriodId(?Period $period_id): self
+    {
+        $this->period_id = $period_id;
 
         return $this;
     }

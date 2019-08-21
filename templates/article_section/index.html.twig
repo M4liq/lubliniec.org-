@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+
+<title>ArticleSection index</title>
+
+{% block body %}
+    <h1>ArticleSection index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Section_no</th>
+                <th>Content</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for article_section in article_sections %}
+            <tr>
+                <td>{{ article_section.id }}</td>
+                <td>{{ article_section.sectionNo }}</td>
+                <td>{{ article_section.content }}</td>
+                <td>
+                    <a href="{{ path('article_section_show', {'id': article_section.id}) }}">show</a>
+                    <a href="{{ path('article_section_edit', {'id': article_section.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('article_section_new') }}">Create new</a>
+{% endblock %}

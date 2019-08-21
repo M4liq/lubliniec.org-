@@ -22,7 +22,7 @@ class ArticlePhoto
     private $path;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\article", inversedBy="article_photo_id")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Article", inversedBy="article_photo_id")
      * @ORM\JoinColumn(nullable=false)
      */
     private $article_id;

@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+
+<title>Edit ArticlePhoto</title>
+
+{% block body %}
+    <h1>Edit ArticlePhoto</h1>
+
+    {{ include('article_photo/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('article_photo_index') }}">back to list</a>
+
+    {{ include('article_photo/_delete_form.html.twig') }}
+{% endblock %}

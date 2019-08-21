@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+
+<title>ArticleSection</title>
+
+{% block body %}
+    <h1>ArticleSection</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ article_section.id }}</td>
+            </tr>
+            <tr>
+                <th>Section_no</th>
+                <td>{{ article_section.sectionNo }}</td>
+            </tr>
+            <tr>
+                <th>Content</th>
+                <td>{{ article_section.content }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('article_section_index') }}">back to list</a>
+
+    <a href="{{ path('article_section_edit', {'id': article_section.id}) }}">edit</a>
+
+    {{ include('article_section/_delete_form.html.twig') }}
+{% endblock %}

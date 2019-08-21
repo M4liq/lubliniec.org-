@@ -1,0 +1,21 @@
+{{ form_start(form) }}
+    {{form_row(form.title)}}
+    {{form_row(form.subtitle)}}
+    {{form_row(form.orientation_date)}}
+    {{form_row(form.date)}}
+    {{form_row(form.topic)}}
+    {{form_row(form.publicated)}}
+    {{form_row(form.author_id)}}
+    {{form_row(form.category_id)}}
+    {{form_row(form.place_id)}}
+    {{form_row(form.period_id)}}
+
+    <div class="forms-wrapper" id="form-list" data-prototype="{{form_widget(form.article_section_id.vars.prototype)|e('html_attr')}}">
+        {% for row in form.article_section_id %}
+        <div class="single-form-wrapper">
+            {{form_row(row)}}
+        </div>
+        {% endfor %}
+    </div>
+    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}

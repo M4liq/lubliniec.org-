@@ -17,7 +17,7 @@ class ArticleSection
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\article", inversedBy="article_section_id")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Article", inversedBy="article_section_id")
      * @ORM\JoinColumn(nullable=false)
      */
     private $article_id;
@@ -31,6 +31,7 @@ class ArticleSection
      * @ORM\Column(type="text")
      */
     private $content;
+
 
     public function getId(): ?int
     {

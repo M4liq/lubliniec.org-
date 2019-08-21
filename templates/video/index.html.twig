@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Video index{% endblock %}
+
+{% block body %}
+    <h1>Video index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Date</th>
+                <th>Orientation_date</th>
+                <th>Title</th>
+                <th>Format</th>
+                <th>Size</th>
+                <th>Description</th>
+                <th>Path</th>
+                <th>Adding_date</th>
+                <th>Subtitle</th>
+                <th>Lastest_modification</th>
+                <th>Topic</th>
+                <th>Publicated</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for video in videos %}
+            <tr>
+                <td>{{ video.id }}</td>
+                <td>{{ video.date ? video.date|date('Y-m-d') : '' }}</td>
+                <td>{{ video.orientationDate ? 'Yes' : 'No' }}</td>
+                <td>{{ video.title }}</td>
+                <td>{{ video.format }}</td>
+                <td>{{ video.size }}</td>
+                <td>{{ video.description }}</td>
+                <td>{{ video.path }}</td>
+                <td>{{ video.addingDate ? video.addingDate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ video.subtitle }}</td>
+                <td>{{ video.lastestModification ? video.lastestModification|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ video.topic }}</td>
+                <td>{{ video.publicated ? 'Yes' : 'No' }}</td>
+                <td>
+                    <a href="{{ path('video_show', {'id': video.id}) }}">show</a>
+                    <a href="{{ path('video_edit', {'id': video.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="14">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('video_new') }}">Create new</a>
+{% endblock %}

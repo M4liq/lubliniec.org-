@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+
+<title>New ArticleSection</title>
+
+{% block body %}
+    <h1>Create new ArticleSection</h1>
+
+    {{ include('article_section/_form.html.twig') }}
+
+    <a href="{{ path('article_section_index') }}">back to list</a>
+{% endblock %}

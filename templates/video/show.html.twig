@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Video{% endblock %}
+
+{% block body %}
+    <h1>Video</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ video.id }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ video.date ? video.date|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Orientation_date</th>
+                <td>{{ video.orientationDate ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ video.title }}</td>
+            </tr>
+            <tr>
+                <th>Format</th>
+                <td>{{ video.format }}</td>
+            </tr>
+            <tr>
+                <th>Size</th>
+                <td>{{ video.size }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ video.description }}</td>
+            </tr>
+            <tr>
+                <th>Path</th>
+                <td>{{ video.path }}</td>
+            </tr>
+            <tr>
+                <th>Adding_date</th>
+                <td>{{ video.addingDate ? video.addingDate|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Subtitle</th>
+                <td>{{ video.subtitle }}</td>
+            </tr>
+            <tr>
+                <th>Lastest_modification</th>
+                <td>{{ video.lastestModification ? video.lastestModification|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Topic</th>
+                <td>{{ video.topic }}</td>
+            </tr>
+            <tr>
+                <th>Publicated</th>
+                <td>{{ video.publicated ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('video_index') }}">back to list</a>
+
+    <a href="{{ path('video_edit', {'id': video.id}) }}">edit</a>
+
+    {{ include('video/_delete_form.html.twig') }}
+{% endblock %}

@@ -38,7 +38,8 @@ class Category
         $this->article_id = new ArrayCollection();
         $this->photo_id = new ArrayCollection();
     }
-
+    
+   
     public function getId(): ?int
     {
         return $this->id;
@@ -55,6 +56,12 @@ class Category
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return $this->getName();
+    }
+    
 
     /**
      * @return Collection|Article[]

@@ -1,0 +1,54 @@
+{% extends 'admin/admin-main-page.html.twig' %}
+
+{% block title %}Article index{% endblock %}
+
+{% block breadcrumbs %}
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="">Start</a>
+          </li>
+          <li class="breadcrumb-item active" id="jquery-bread">Artykuły</li>
+        </ol>
+{% endblock %}
+
+
+{% block pageContents %}
+ <div class="col-12 pb-3 resources-table">
+                <table class="table table-hover">
+                       <thead>
+                        <tr>
+                            <th scope="col">Numer Id</th>
+                            <th scope="col">Tytuł</th>
+                            <th scope="col">Data</th>
+                            <th scope="col">Data Dodania</th>
+                            <th scope="col">Ostatnia Modyfikacja</th>
+                            <th scope="col">Temat</th>
+                            <th scope="col">Opublikowany</th>
+                            <th scope="col">Akcje</th>
+                        </tr>
+                    </thead>
+                        <tbody>
+                            {% for article in articles %}
+                            <tr>
+                                    <td>{{ article.id }}</td>
+                                    <td>{{ article.title }}</td>
+                                    <td>{{ article.date ? article.date|date('Y-m-d') : '' }}</td>
+                                    <td>{{ article.addingDate ? article.addingDate|date('Y-m-d H:i:s') : '' }}</td>
+                                    <td>{{ article.lastestModification ? article.lastestModification|date('Y-m-d H:i:s') : '' }}</td>
+                                    <td>{{ article.topic }}</td>
+                                    <td>{{ article.publicated ? 'Tak' : 'Nie' }}</td>
+                                    <td>
+                                        <a href="{{ path('article_show', {'id': article.id}) }}">Zobacz </a>/
+                                        <a href="{{ path('article_edit', {'id': article.id}) }}">Edytuj </a>
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="10">Brak zapisów w bazie danych</td>
+                                </tr>
+                            {% endfor %}
+                         
+                        </tbody>
+                      </table>
+                        <a href="{{ path('article_new')}}" class="btn btn-success"> Dodaj</a>
+        {% endblock %}

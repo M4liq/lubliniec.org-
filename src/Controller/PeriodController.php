@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/period")
+ * @Route("/przedziały")
  */
 class PeriodController extends AbstractController
 {
@@ -20,13 +20,13 @@ class PeriodController extends AbstractController
      */
     public function index(PeriodRepository $periodRepository): Response
     {
-        return $this->render('period/index.html.twig', [
+        return $this->render('admin/period/index.html.twig', [
             'periods' => $periodRepository->findAll(),
         ]);
     }
 
     /**
-     * @Route("/new", name="period_new", methods={"GET","POST"})
+     * @Route("/nowy", name="period_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
@@ -42,7 +42,7 @@ class PeriodController extends AbstractController
             return $this->redirectToRoute('period_index');
         }
 
-        return $this->render('period/new.html.twig', [
+        return $this->render('admin/period/new.html.twig', [
             'period' => $period,
             'form' => $form->createView(),
         ]);
@@ -59,7 +59,7 @@ class PeriodController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="period_edit", methods={"GET","POST"})
+     * @Route("edytuj/{id}", name="period_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Period $period): Response
     {
@@ -72,7 +72,7 @@ class PeriodController extends AbstractController
             return $this->redirectToRoute('period_index');
         }
 
-        return $this->render('period/edit.html.twig', [
+        return $this->render('admin/period/edit.html.twig', [
             'period' => $period,
             'form' => $form->createView(),
         ]);

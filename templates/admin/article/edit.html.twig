@@ -1,0 +1,14 @@
+{% extends 'admin/admin-main-page.html.twig' %}
+
+{% block title %}Edytuj Artykuł{% endblock %}
+
+{% block pageContents %}
+
+<div class="col-12">
+    {{ include('admin/article/_form.html.twig', {'button_label': 'Aktualizuj'}) }}
+
+    <a href="{{ path('article_admin_index') }}">Powrót do listy</a>
+
+    {{ include('admin/article/_delete_form.html.twig') }}
+</div>
+{% endblock %}

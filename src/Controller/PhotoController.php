@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/photo")
+ * @Route("/zdjecia")
  */
 class PhotoController extends AbstractController
 {
@@ -20,13 +20,13 @@ class PhotoController extends AbstractController
      */
     public function index(PhotoRepository $photoRepository): Response
     {
-        return $this->render('photo/index.html.twig', [
+        return $this->render('admin/photo/index.html.twig', [
             'photos' => $photoRepository->findAll(),
         ]);
     }
 
     /**
-     * @Route("/new", name="photo_new", methods={"GET","POST"})
+     * @Route("/nowe", name="photo_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
@@ -42,7 +42,7 @@ class PhotoController extends AbstractController
             return $this->redirectToRoute('photo_index');
         }
 
-        return $this->render('photo/new.html.twig', [
+        return $this->render('admin/photo/new.html.twig', [
             'photo' => $photo,
             'form' => $form->createView(),
         ]);
@@ -59,7 +59,7 @@ class PhotoController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="photo_edit", methods={"GET","POST"})
+     * @Route("/edytuj/{id}", name="photo_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Photo $photo): Response
     {
@@ -72,7 +72,7 @@ class PhotoController extends AbstractController
             return $this->redirectToRoute('photo_index');
         }
 
-        return $this->render('photo/edit.html.twig', [
+        return $this->render('admin/photo/edit.html.twig', [
             'photo' => $photo,
             'form' => $form->createView(),
         ]);

@@ -10,31 +10,46 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\Common\Collections\ArrayCollection;
 
-/**
- * @Route("/article")
- */
 class ArticleController extends AbstractController
 {
     /**
-     * @Route("/", name="article_index", methods={"GET"})
+     * @Route("/artykuly", name="article_index", methods={"GET"})
      */
     public function index(ArticleRepository $articleRepository): Response
     {
-        return $this->render('article/index.html.twig', [
+        return $this->render('admin/article/index.html.twig', [
+            'articles' => $articleRepository->findAll(),
+        ]);
+    }
+
+     /**
+     * @Route("admin/artykuly", name="article_admin_index", methods={"GET"})
+     */
+    public function admin_index(ArticleRepository $articleRepository): Response
+    {
+        return $this->render('admin/article/index.html.twig', [
             'articles' => $articleRepository->findAll(),
         ]);
     }
 
     /**
-     * @Route("/new", name="article_new", methods={"GET","POST"})
+     * @Route("admin/artykuly/nowy", name="article_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
         $article = new Article();
         $articleSection = new ArticleSection;
-        
+        $articleSection -> setArticleId($article);
         $article->addArticleSectionId($articleSection);
+
+        $allArticleSections = new ArrayCollection();
+
+        foreach($article->getArticleSectionId() as $section)
+        {
+            $allArticleSections -> add($section);
+        }
 
         $form = $this->createForm(ArticleType::class, $article);
 
@@ -42,35 +57,44 @@ class ArticleController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+
+            foreach ($allArticleSections as $section)
+            if(false === $article->getArticleSectionId()->contains($section))
+            {   
+                $section->getArticleId()->removeElement($article);
+                $entityManager->remove($section);
+            }
+
+
             $entityManager->persist($article);
             $entityManager->flush();
-
-            return $this->redirectToRoute('article_index');
+    
+            return $this->redirectToRoute('article_new');
         }
 
-        return $this->render('article/new.html.twig', [
+        return $this->render('admin/article/new.html.twig', [
             'article' => $article,
             'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/{id}", name="article_show", methods={"GET"})
+     * @Route("artykuly/{id}", name="article_show", methods={"GET"})
      */
     public function show(Article $article): Response
     {
-        return $this->render('article/show.html.twig', [
+        return $this->render('admin/article/show.html.twig', [
             'article' => $article,
         ]);
     }
 
     /**
-     * @Route("/{id}/edit", name="article_edit", methods={"GET","POST"})
+     * @Route("admin/edytuj/{id}", name="article_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Article $article): Response
-    {
+    {   
+
         $form = $this->createForm(ArticleType::class, $article);
-    
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -79,14 +103,14 @@ class ArticleController extends AbstractController
             return $this->redirectToRoute('article_index');
         }
 
-        return $this->render('article/edit.html.twig', [
+        return $this->render('admin/article/edit.html.twig', [
             'article' => $article,
             'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/{id}", name="article_delete", methods={"DELETE"})
+     * @Route("admin/artykuly/{id}", name="article_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Article $article): Response
     {

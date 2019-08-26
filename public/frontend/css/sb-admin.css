@@ -5139,6 +5139,7 @@ input[type="button"].btn-block {
   flex-wrap: wrap;
   padding: 0.75rem 1rem;
   margin-bottom: 1rem;
+  margin-left: 1rem;
   list-style: none;
   background-color: #e9ecef;
   border-radius: 0.25rem;
@@ -10672,6 +10673,8 @@ body {
   width: 90px !important;
   background-color: #212529;
   min-height: calc(100vh - 56px);
+  text-align: center;
+  color: #b9b9b9 !important;
 }
 
 .sidebar .nav-item:last-child {

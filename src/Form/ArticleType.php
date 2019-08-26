@@ -19,7 +19,10 @@ class ArticleType extends AbstractType
             ->add('title')
             ->add('subtitle')
             ->add('orientation_date')
-            ->add('date')
+            ->add('date', DateType::class,[
+                'label' => 'Data',
+                'widget' => 'single_text'
+            ])
             ->add('topic')
             ->add('publicated')
             ->add('author_id')
@@ -28,6 +31,7 @@ class ArticleType extends AbstractType
             ->add('period_id')
             ->add('article_section_id', CollectionType::class,[
                 'entry_type' => ArticleSectionType::class,
+                'by_reference' => false,
                 'allow_add' => true,
                 'allow_delete' => true,
                 'entry_options' =>[

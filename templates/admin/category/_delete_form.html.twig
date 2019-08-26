@@ -1,0 +1,7 @@
+<div class="col-12">
+    <form method="post" action="{{ path('category_delete', {'id': category.id}) }}" onsubmit="return confirm('Czy napewno chcesz usunąć ten element?');">
+        <input type="hidden" name="_method" value="DELETE">
+        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ category.id) }}">
+        <button class="btn btn-danger delete-form-btn">Usuń</button>
+    </form>
+</div>

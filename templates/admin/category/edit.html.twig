@@ -1,0 +1,30 @@
+
+{% extends 'admin/admin-main-page.html.twig'%}
+
+{% block title %}<title>Edytuj Kategirie</title>{% endblock %}
+
+{% block breadcrumbs %} 
+    <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="">Start</a>
+          </li>
+          <li class="breadcrumb-item" id="jquery-bread">
+            <a  href="{{path("category_index")}}" >
+                Kategorie
+            </a>
+          </li>
+          <li class="breadcrumb-item active">Edytuj</li>
+        </ol>
+{% endblock %}
+
+{% block pageContents %}
+
+
+    {{ include('admin/category/_form.html.twig', {'button_label': 'Aktualizuj'}) }}
+
+    
+
+    {{ include('admin/category/_delete_form.html.twig') }}
+
+   <a href="{{ path('category_index') }}" class="pl-5 ml-5 mt-2">Powrót do listy</a> 
+{% endblock %}

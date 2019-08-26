@@ -1,0 +1,26 @@
+{% extends 'admin/admin-main-page.html.twig' %}
+
+{% block title %}Edytuj Przedział{% endblock %}
+{% block breadcrumbs %} 
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="">Start</a>
+          </li>
+          <li class="breadcrumb-item" id="jquery-bread">
+            <a  href="{{path("period_index")}}" >
+                Przedziały
+            </a>
+          </li>
+           <li class="breadcrumb-item" id="jquery-bread">
+                Edycja
+          </li>
+        </ol>
+{% endblock %}
+{% block pageContents %}
+
+    {{ include('admin/period/_form.html.twig', {'button_label': 'Aktualizuj'}) }}
+    {{ include('admin/period/_delete_form.html.twig') }}
+    <a href="{{ path('period_index') }}" class="mt-2 ml-5">Powrót do lsity</a>
+
+    
+{% endblock %}

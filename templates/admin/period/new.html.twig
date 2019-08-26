@@ -1,0 +1,24 @@
+{% extends 'admin/admin-main-page.html.twig' %}
+
+{% block title %}Nowy Przedział{% endblock %}
+{% block breadcrumbs %} 
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="">Start</a>
+          </li>
+          <li class="breadcrumb-item" id="jquery-bread">
+            <a  href="{{path("period_index")}}" >
+                Przedziały
+            </a>
+          </li>
+           <li class="breadcrumb-item" id="jquery-bread">
+                Nowy
+          </li>
+        </ol>
+{% endblock %}
+{% block pageContents %}
+
+    {{ include('admin/period/_form.html.twig') }}
+
+    <a href="{{ path('period_index') }}" class="mt-2 ml-4">Powrót do listy</a>
+{% endblock %}

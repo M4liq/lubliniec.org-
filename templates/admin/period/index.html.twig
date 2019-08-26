@@ -1,0 +1,50 @@
+{% extends 'admin/admin-main-page.html.twig' %}
+
+{% block title %}Edycja przedziału{% endblock %}
+
+{% block breadcrumbs %} 
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="">Start</a>
+          </li>
+          <li class="breadcrumb-item" id="jquery-bread">
+            <a  href="{{path("period_index")}}" >
+                Przedziały
+            </a>
+          </li>
+        </ol>
+{% endblock %}
+
+{% block pageContents %}
+
+    <table class="table table-hover ml-5">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nazwa</th>
+                <th>Dolny Zakres</th>
+                <th>Góry Zakres</th>
+                <th>Akcje</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for period in periods %}
+            <tr>
+                <td>{{ period.id }}</td>
+                <td>{{ period.name }}</td>
+                <td>{{ period.lower }}</td>
+                <td>{{ period.upper }}</td>
+                <td>
+                    <a href="{{ path('period_edit', {'id': period.id}) }}">Edytuj</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">Nie znaleziono zapisów</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('period_new') }}" class="btn btn-success ml-4">Nowy Przedział</a>
+{% endblock %}

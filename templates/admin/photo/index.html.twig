@@ -1,0 +1,55 @@
+{% extends 'admin/admin-main-page.html.twig' %}
+
+{% block title %}Lista Zdjęć{% endblock %}
+
+{% block breadcrumbs %} 
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="">Start</a>
+          </li>
+          <li class="breadcrumb-item" id="jquery-bread">
+            <a  href="{{path("period_index")}}" >
+                Zdjęcia
+            </a>
+          </li>
+        </ol>
+{% endblock %}
+
+{% block pageContents %}
+
+    <table class="table ml-5 table-hover">
+        <thead>
+            <tr>
+                <th>Data wykonania</th>
+                <th>Tytuł</th>
+                <th>Rozmiar</th>
+                <th>Data Dodania</th>
+                <th>Ostatnia Modyfikacja</th>
+                <th>Opublikowana</th>
+                <th>Akcje</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for photo in photos %}
+            <tr>
+                <td>{{ photo.date ? photo.date|date('Y-m-d') : '' }}</td>  
+                <td>{{ photo.title }}</td>
+                <td>{{ photo.size }}</td>
+                <td>{{ photo.addingDate ? photo.addingDate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ photo.lastestModification ? photo.lastestModification|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ photo.publicated ? 'Tak' : 'Nie' }}</td>
+                <td>
+                    <a href="{{ path('photo_show', {'id': photo.id}) }}">Pokaż</a>
+                    <a href="{{ path('photo_edit', {'id': photo.id}) }}">Edytuj</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="14">Nie znaleziono zapisów</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('photo_new') }}" class="btn btn-success ml-5">Dodaj nowe</a>
+{% endblock %}

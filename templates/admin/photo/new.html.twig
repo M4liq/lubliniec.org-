@@ -1,0 +1,10 @@
+{% extends 'admin/admin-main-page.html.twig' %}
+
+{% block title %}Nowe zdjęcie{% endblock %}
+
+{% block pageContents %}
+
+    {{ include('admin/photo/_form.html.twig') }}
+
+    <a href="{{ path('photo_index') }}" class="ml-4 pt-2">Powrót do listy</a>
+{% endblock %}

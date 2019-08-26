@@ -1,0 +1,23 @@
+{% extends 'admin/admin-main-page.html.twig' %}
+
+{% block title %}Nowy Artykuł{% endblock %}
+
+{% block breadcrumbs %}
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item active">
+            <a href="">Start</a>
+          </li>
+          <li class="breadcrumb-item active" id="jquery-bread">
+            <a href="{{path('article_admin_index')}}">Artykuły</a>
+          </li>
+          <li class="breadcrumb-item " id="jquery-bread">Nowy</li>
+        </ol>
+{% endblock %}
+
+{% block pageContents %}
+    <div class="col-12">
+    {{ include('admin/article/_form.html.twig') }}
+
+    <a href="{{ path('article_index') }}">Powrót do Listy</a>
+    </div>
+{% endblock %}

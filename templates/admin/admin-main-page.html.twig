@@ -12,16 +12,18 @@
   {% block basicCssLibs %}
   <!-- Custom fonts for this template-->
   <link href="{{asset ('frontend/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
- <!-- Bootstrap core CSS -->
-  <link href="{{asset ('/frontend/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
-  {% endblock %}
-  <link href="{{asset ('/frontend/css/sb-admin.css') }}" rel="stylesheet">
   
-   <link href="{{asset ('/frontend/css/admin.css') }}" rel="stylesheet">
+
+ <!-- Bootstrap core CSS -->
+
+  {% endblock %}
+
   {% block customCss %}
+     {{ encore_entry_link_tags('sb-admin') }}
+     {{ encore_entry_link_tags('admin') }}
  {% endblock %}
-{% block editorLiberies %}
- {% endblock %}
+
+
 
 </head>
 
@@ -148,13 +150,16 @@
 
    <!-- Bootstrap core JavaScript -->
   {% block basicJsLibs %}
-   <script src="{{asset ('frontend/vendor/jquery/jquery.min.js')}}"></script>
-  <script src="{{asset ('frontend/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+
+
   {% endblock %}
  
-  <script src="{{asset ('frontend/js/sb-admin.min.js')}}"></script>
-  <script src="{{asset ('frontend/js/admin.js')}}"></script>
-  <script src="{{asset ('frontend/js/adding-form.js')}}"></script>
+  <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+  {{ encore_entry_script_tags('editor') }}
+  {{ encore_entry_script_tags('sb-admin') }}
+  {{ encore_entry_script_tags('admin') }}
+  {{ encore_entry_script_tags('adding-form') }}
+
   {% block customJs %}
 
   {% endblock %}

@@ -17,7 +17,8 @@
 {% block pageContents %}
     <div class="col-12">
     {{ include('admin/article/_form.html.twig') }}
-
-    <a href="{{ path('article_index') }}">Powrót do Listy</a>
+      <div class="ml-3">
+       <a href="{{ path('article_index') }}">Powrót do Listy</a>
+      </div>
     </div>
 {% endblock %}

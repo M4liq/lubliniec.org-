@@ -22,14 +22,15 @@
        
         </div>
     </div>
-    <div class="forms-wrapper" id="form-list" data-prototype="{{form_widget(form.article_section_id.vars.prototype)|e('html_attr')}}">
+    <div class="forms-wrapper col-8 " id="form-list" data-prototype="{{form_widget(form.article_section_id.vars.prototype)|e('html_attr')}}">
         {% for row in form.article_section_id %}
-
+        
         <div class="single-form">
             {{form_row(row)}}  
         </div>
-
+            <hr>
         {% endfor %}
     </div>
-    <button class="btn btn-warning">{{ button_label|default('Zapisz') }}</button>
+    <button class="btn btn-warning mt-3 mb-3 ml-3">{{ button_label|default('Zapisz') }}</button>
+    
 {{ form_end(form) }}

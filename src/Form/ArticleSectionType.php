@@ -6,6 +6,7 @@ use App\Entity\ArticleSection;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class ArticleSectionType extends AbstractType
 {
@@ -13,7 +14,9 @@ class ArticleSectionType extends AbstractType
     {
         $builder
             ->add('section_no')
-            ->add('content')
+            ->add('content', TextareaType::class,[
+                'attr' => ['class' => 'tinymce']
+            ])
         ;
     }
 

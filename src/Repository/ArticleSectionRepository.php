@@ -19,16 +19,17 @@ class ArticleSectionRepository extends ServiceEntityRepository
         parent::__construct($registry, ArticleSection::class);
     }
 
-     /**
-     * @return ArticleSection[] Returns an array of ArticleSection objects
+      /**
+         * @return ArticleSection[] Returns an array of ArticleSection objects
       */
     
 
-
+    /*
     public function findOneFromAll()
     {
         return $this->createQueryBuilder('a')
-            ->from('a.articlesSection')
+            ->select('a')
+            ->from('ArticleSection', 'a')
             ->orderBy('a.id', 'DESC')
             ->setMaxResults(1)
             ->getQuery()

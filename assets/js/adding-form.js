@@ -47,8 +47,18 @@ $(document).ready(function () {
         // append the panel to the addNewItem
         // we are doing it this way to that the link is always at the bottom of the collectionHolder
         $addNewItem.before($panel);
+        makeTinyMceEditor();
     }
 
+
+    function makeTinyMceEditor() 
+    {
+            tinymce.init({
+                selector: '.tinymce',
+                plugins: 'image',
+                toolbar: 'image',
+            })
+     }
 
 
 

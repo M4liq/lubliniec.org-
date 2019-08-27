@@ -28,9 +28,15 @@ class ArticleSection
     private $section_no;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable = true)
+     */
+    private $path;
+
+    /**
      * @ORM\Column(type="text")
      */
     private $content;
+
 
 
     public function getId(): ?int
@@ -58,6 +64,18 @@ class ArticleSection
     public function setSectionNo(int $section_no): self
     {
         $this->section_no = $section_no;
+
+        return $this;
+    }
+
+    public function getPath(): ?string
+    {
+        return $this->path;
+    }
+
+    public function setPath(string $path): self
+    {
+        $this->path = $path;
 
         return $this;
     }

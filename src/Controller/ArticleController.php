@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Serviecies\ArticleSectionUploadManager;
 use App\Form\ArticleType;
 use App\Entity\ArticleSection;
 use App\Repository\ArticleRepository;
+use App\Repository\ArticleSectionRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -37,12 +39,14 @@ class ArticleController extends AbstractController
     /**
      * @Route("admin/artykuly/nowy", name="article_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, ArticleSectionUploadManager $sectionUploadManager, ArticleSectionRepository $articleSectionRepository ): Response
     {
         $article = new Article();
         $articleSection = new ArticleSection;
         $articleSection -> setArticleId($article);
-        $article->addArticleSectionId($articleSection);
+        $article -> addArticleSectionId($articleSection);
+
+      
 
         $allArticleSections = new ArrayCollection();
 
@@ -53,11 +57,23 @@ class ArticleController extends AbstractController
 
         $form = $this->createForm(ArticleType::class, $article);
 
+            
+        //echo "<pre>";
+       // var_dump($article); die;
+
         $form->handleRequest($request);
+
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
 
+            //$file = $request->files->get('file');
+            
+                
+           
+           // $sectionUploadManager->setFilename($file);
+         //   $articleSection->setPath($sectionUploadManager->getFileLocation());
+    
             foreach ($allArticleSections as $section)
             if(false === $article->getArticleSectionId()->contains($section))
             {   
@@ -68,13 +84,18 @@ class ArticleController extends AbstractController
 
             $entityManager->persist($article);
             $entityManager->flush();
+
+
     
-            return $this->redirectToRoute('article_new');
+            return $this->redirectToRoute('article_index');
         }
+
+        $sectionUploadManager->fetchLastestId($articleSectionRepository);
 
         return $this->render('admin/article/new.html.twig', [
             'article' => $article,
             'form' => $form->createView(),
+            'lastestId' => $sectionUploadManager->getLastestId()
         ]);
     }
 

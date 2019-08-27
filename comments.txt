@@ -1,0 +1,1661 @@
+Symfony:
+
+1. Configuration and packages
+
+.env - configuration of main enviremental variables
+APP_ENV - dev,test,production - which configuration from config/packages
+use. Reading folder depending on mode. Can read files from main folder with *_dev.* also.
+.env //database url editing
+
+Installing packages:
+
+Symfony enables Symfony Flex aliases for composer f. eg. :
+
+composer require symfony/twig-boundle // from packagist
+composer require twig // using alias from Symfony Flex
+
+It also create and modify required files and folders, witch must be done manually without it. 
+Installing additional packages modifies fies .env and config/packages folder and also adding some folders in project root folder.
+
+2. Handling HTTP
+	
+	Routes(Runnig method if route is matching), Controller, View, Entity(Model)
+
+3. Class autoloading using composer 
+	Composer enables class autoloading in composer.json
+	Part of composer.json below:
+	
+	{
+		"autoload":
+		{
+			"classmap":
+			[
+				"app/models" //f. eg
+			]
+		}
+	}
+	
+	classmap - loading classes from folders selected in array
+	
+	-Check the version of composer, should be the lastest. 
+	-composer dump-autoload -o //reloading classes with optimalisation param
+
+	Insted of requiring all classes, it is possible to use only "require vendor/autoload.php;"
+	
+	Psr4:
+	Enables scalablility for application, and provides easy managment Psr4 is standing on namespaces and is reading 
+	directory path starting on App (In symfony src, but can be changed in composer.json)
+	
+	f.eg:
+	
+	
+	build of class file:
+	<?php 
+		namespace /Appclasses/Repository/User/
+	
+		class <someclass name>
+		{
+			public __construct()
+			{
+				die("I see a tunnel");
+			}
+		}
+	
+	Using class in another file feg: controller.php:
+	<?php
+		use /Appclasses/Repository/User/<someclass name> as <someclassname> //as ... - not required
+		use /Appclasses/Repository/User/ -obviously works too 
+		
+		$user = new <someclassname>();
+
+		
+	composer.json:
+	{
+		"autoload":
+		{
+			"psr-4":
+			{
+				"Appclasses//":"app/Appclasses" - bind root classname folder to folder in system
+			
+			}
+		}
+	}
+	-composer dump-autoload -o //reloading classes with optimalisation param
+	
+	psr-4 loades all classes in all folders without need of modification of composer.json and make it managleble 
+
+
+4. 
+	Entity - php file using for communicating with database
+	Repository - file with ocjects from db provied by select queries
+	
+5. Handling db
+	
+	Migrations -> Db version control system. It can be created manually, or automatically basing on entities.
+				 For more: https://czterytygodnie.pl/doctrine-migrations/. Resible 
+
+composer require orm //all staff regarding db -
+
+php bin/console make:entity [entityname] //creating src/entities file with class creating table executing class creating tables
+
+		<?php
+			use App/Entity/<Classname>
+
+			$entityManager = $this->getDoctrine()->getManager();
+
+			$object = new Classname;
+			$object->setSomeValue($somevalue);
+
+			$entityManager->persist($object); //preparation 
+			$entityManager->flush($object); //executing query 
+		?>
+bin/console make:migration - creating db structure basing on entities
+bin/console doctrine:migrations:migrate - executing prepared migration
+	
+		<?php
+			$obj=$this->getDoctrine()->getRepository(classname:class)->findAll();
+		?>
+		
+	obj.property -> access to properties in twig
+	
+	
+5. Symfony servicies
+	
+	-Symfony servicies = symfony classes + our own classes
+	
+	-Symfony Container = Class holding instantions of symfony servicies
+	
+	-To put class in Container create php class file in src folder with proper namespace.
+	
+	-Symfony creates instancies only when creating container
+	
+	Implementation:
+	
+	
+		In Controller:
+		
+			<?php
+			use App\Serviecies\Classname
+			public function controller(Someclass $someinstance)
+			{	
+				$someinstance->someproperty //No need to building an object, because it was alerady build by Symfony Container
+											
+			}
+			
+			?>
+	
+		In class:
+		
+		namespace App\Serviecies;
+
+		class Classname
+		{		
+		
+			public $param; //if public there is no need to using getters or setters
+			
+			public function __construct()
+			{	
+				$this->param=["piano","jaszczurka", "żaba", "knife"];
+
+			}
+			
+			
+		}
+		
+		We can extends our classes feg:
+		
+		class Classname
+		{		
+			
+			public $param; //if public there is no need to using getters or setters, but ino not this is not recommended solution
+			
+			public function __construct(LoggerInterface $logger)
+			{		
+				$logger->info("something"); // puts info to log
+				$this->param=["piano","jaszczurka", "żaba", "knife"];
+
+			}
+			
+		}
+		
+	 Olny in controllers is possible to access external objects in methods diffrent than __construct.	
+	 
+6. Advanced Rout0es:
+		
+	Examples:
+	1.
+	/**
+		* @Route("/{category}/{_locale}/{id}", 
+		name="a",
+		requirements={
+			"id"="\d+", //regular expression
+			"_locale"="en|fr",
+			"category"="computers|rtv"
+			},
+		defaults={
+			"id" : "1",
+			"_locale"="en"
+		
+		})
+		*/
+	 2.
+	 /**
+		* @Route({
+		*	"nl" : "/over-ones",
+		*	"en" : "/about-us",
+		*	"pl" : "/o-nas"
+		*	},name="about-us")
+		*/
+
+7. Flash messeges
+
+	Messege showing only in next request. During futher requests it won be shown.
+
+	$this->addFlash(
+				
+				"Notice", //class name 
+				"Value of notice" //value
+			)
+	
+	Access in twig:
+
+	{% for class, values in app.flashes%}
+		{for value in values}
+			<div class="{{class}}>{{value}}</div>"
+		{%endfor%}
+	{%endfor%}
+	
+8. Cookies
+
+	//setting
+		 use Symfony\Component\HttpFoundation\Cookie; 
+			 
+			public function cookie()
+				{	
+					$cookie = new Cookie(
+						"Name",
+						"Value",
+						time() + (2*365*24*60*60)
+					);
+					
+					
+					$response = new Response();
+					$response->headers->setCookie($cookie);
+					return $response;
+					
+				} 
+	//importing
+		use Symfony\Component\HttpFoundation\Request; 
+	
+	 public function CookieGet(Request $request)
+		{	
+			$session=$request->cookies->get("Name");
+			return new Response($session);
+		}
+		
+9. Sessions
+	
+	public function Session(SessionInterface $session)
+		{	
+		
+			if($session->has("Name")) //ifisset
+				$sessionValue=$session->get("Name");
+				// $session->remove("Name"); 		deleting session
+				// $session->clear(); 				deleting all sessions
+			else
+			{
+				$session->set("Name", "Value");
+				
+				$sessionValue=$session->get("Name");
+			}
+			
+			return new Response($sessionValue);
+		}
+		
+10. Get and Post
+
+	public function getAndPost(Request $request)
+		{	
+		
+		
+			$data=$request->query->get("getName","default"); //get("name","settingdefaultvalue")
+			$post=$request->request->get("postName") //getting Post value
+			$request->isXmlHttpRequest(); //checking ajax request
+			$request->files->get("fileNameInHtmlForm");
+			return new Response($data);
+		}
+		
+11. Custom error pages
+	 
+	 Symfony has default errorHandlingController.
+	 
+	 To use it, create templates\bundles\TwigBundle\Exception, and put ther custom error according 
+	 to scheme error500.html.twig, error404.html.twig, error.html.twig for all kind of errors.
+	 It works only in production envirement
+	 
+12. Throwing Exception
+
+	use Symfony\Component\HttpKernel\Exception\NotFoundHttpException; 
+	
+	$this->createNotFoundException("This user does not exist");
+	
+13. Getting app variables in views
+
+	composer require symfony/security-bundle
+	
+	{{app.user}} //if logged 
+	
+	{{app.request.get("param")}} //getting value of particular parameters
+	{{app.environment}} //env variables
+	{{dump(app.session)}} //session variables
+	
+14. Using controllers embaded in views
+
+	-Creating a controller method useing for rendering some html
+	feg: 
+	
+			/*
+				Without any route, this method will be used only 
+				to render some html and assign it in specific view file
+			*/
+			public function returnPopularPosts()
+			{	
+				//should be getting from db here
+				$posts = ["post1", "post2", "post3", "post4", "post5"];
+				return $this->render("default/popular-posts.html.twig",
+				[
+					'posts'=>$posts
+				]);
+			}
+
+	-Creating a template to be rendered by controller:
+		feg: default/popular-posts.html.twig
+		
+		{%for post in posts%}
+			{{post}}</br>
+		{%endfor%}
+		
+	-Calling controller in index.html.twig view
+		feg:
+			{{render(controller("App\\Controller\\DefaultController::returnPopularPosts"))}}
+		
+15. Using Data Fixtures and Creating Data
+
+		// Data Fixtures are used for adding some fake data to db 
+		
+		composer req --dev orm-fixtures /installing data fixtures with flex
+	
+	It will create App/DataFixtures namespace with AppFixtures.php class.
+	Load method will be called during bin/console doctrine:fixtures:load executing
+
+	Making Fixtures:
+	
+	1.Drop database
+	2.Deleding Migrations (rm src/Migrations/*.php) 
+	3.Make new migration
+	4.Migrating
+	5.Load Fixtures (Calling load method from AppFixtures)	
+	
+16. Reading 	
+	
+	
+					$repository = $this->getDoctrine()->getRepository(Users::class);
+
+									*********************************
+												finding by id
+								*********************************
+									$user = $repository -> find(1); 
+								
+							*********************************
+							finding under specific conditions
+								*********************************
+
+				    $user = $repository -> findOneBy(
+							[
+								"name"=>"Michal",
+								"id"=>5
+							];)
+
+							*****************************************************
+							finding under specific conditions more then one record
+							*****************************************************
+							$users = $repository -> findBy(
+								["name"=>"Michal"], //conditions
+								["id"=>"DESC"] //order of displaying
+							);	
+
+								*********************************
+								displaying all records
+								*********************************
+								$users = $repository -> findAll();
+								
+								
+17. Updating
+		
+			$manager = $this -> getDoctrine()->getManager();
+			$repository = $this->getDoctrine()->getRepository(Users::class);
+			$user =	$repository->find($id);
+	
+					$user->setName("Robert");
+								$manager->persist($user);
+								$manager->flush();
+								
+18. Deleting
+
+					$manager = $this->getDoctrine()->getManager();
+					$repository = $manager -> getRepository(Users::class); //another way to get repository
+					$user= $repository -> find(1);
+
+					$manager->remove($user);
+					$manager->flush();
+					return new Response("Deleted");
+
+19. Manually executing queries 
+
+
+	$manager = $this->getDoctrine()->getManager();
+					
+					$connection = $manager -> getConnection();
+					$sql ="SELECT * FROM users WHERE id = :id";
+					
+					$statment = $connection->prepare($sql);
+					$statment->execute(['id'=>3	]);
+
+						
+					return new Response(var_dump($statment->fetchAll()));
+20. Param Converter - feature allowing finding single idies in db, basing on Route
+	
+	requires: composer require sensio/framework-extra-bundle
+
+				/**
+				 * @Route("/param-converter/{id}",name="param-converter")
+				 */
+				public function param(Users $user)
+				{	
+						//due to sensio/framework-extra-bundle Symfony will retrive user automatically
+						//doesn't require using extra classes 
+					return new Response(var_dump($user));
+				}
+
+21. Orm lifecajcyl - used for automatically creating entities in table 
+	
+	feg:
+	
+		namespace App\Entity;
+
+		use Doctrine\ORM\Mapping as ORM;
+
+		/**
+		 * @ORM\Entity(repositoryClass="App\Repository\UsersRepository")
+		 * @ORM\HasLifecycleCallbacks()
+		 */
+		class Users
+		{   
+			/**
+			 * @ORM\PrePersist
+			 */
+			public function SetCreatedAtValue()
+			{
+				$this->createdAt = new \DateTime();
+			}
+		...
+
+		It will creates createdAt entity before calling persist method.
+
+22. Relations One to Many and Many to One
+	
+	(much easier to do it in native git bash than in VisualStudio console)
+	php bin/console make:entity [entityname]
+	
+	Throught the creator and add at least in one entity with data type relation.
+	
+	then:
+	bin/console doctrine:schema:drop -n -q --force --fulldatabase
+	
+	example usage:
+	
+	 public function oneToMany()
+				 {
+						$manager = $this->getDoctrine()->getManager();
+						$user= new Users();
+						$user ->setName("Michal");
+
+						$toDisplay="";
+						for($i=0;$i<5;$i++)
+						{	
+							$video = new Videos();
+							$video-> setTitle("FunnyCat-".$i);
+							$toDisplay.="FunnyCat-".$i." ";
+							$user->addVideo($video); //masterpice 
+							$manager->persist($video);
+						 }
+						 
+						 $manager->persist($user);
+						 $manager->flush();
+
+						 $uszer = $user->getName();
+						 return new Response("Added new '$uszer' and videos: '$toDisplay'");
+				 }
+23. Lazy Loading:
+
+	public function lazyLoading()
+				{
+						 $video=$this->getDoctrine()->getRepository(Videos::class)->find(1);
+							$user =	$video->getUser(); //it wont call user itself. Symfony calls resurces only if needed
+
+
+						return new Response($user->getName()); //additional query will be executed here 
+				}
+				
+24. Deleting related objects.
+
+	First solution:
+	Requires:
+
+	@ORM\ManyToOne(targetEntity="App\Entity\Users", inversedBy="videos")
+	@ORM\JoinColumn(nullable=true, onDelete="CASCADE");
+
+	annotatons, above forigin key in child entity, creating new db schema and migrations 
+	works both in db level and application
+	Second:
+	@ORM\ManyToOne(targetEntity="App\Entity\Users", inversedBy="videos", cascade={remove})
+	doesn't require restarting schema, but works only on application level
+
+	Setting null orphand (deleting relation):
+	Orphan is record with forigin key value = NULL,
+	It can be assign to another user or restore.
+	Setting orphan is default symfony setting.
+
+	$manager = $this -> getDoctrine() -> getManager();
+						$videos = $manager -> getRepository(Videos::class);
+						$video= $videos -> find(1);
+
+						$users = $manager -> getRepository(Users::class);
+						$user= $users -> find(1);
+
+						$user -> removeVideo($video);
+
+						$manager -> flush();
+					
+						return new Response("Relation deleted");
+	If Entity is set on: 
+	@ORM\ManyToOne(targetEntity="App\Entity\Users", inversedBy="videos", orphanRemoval=true)
+
+	It wille erase all orphan record
+
+25. One to One
+
+	Configuration is the same as in One to Many/Many to One
+
+	Modification of Entities enable by 
+	bin/console make:entity and then typing name of already existing entity
+	Deleting repository will be required
+
+
+	/**
+     * @ORM\OneToOne(targetEntity="App\Entity\Adress", cascade={"persist", "remove"})
+     */
+
+
+	 cascade={"persist"} enables using persist method only in parent object 
+
+
+	 $entityManager->persist($user);
+	 $entityManager->persist($userAdress); /required if casdace="{persist}" not enabled
+
+26. MAny to Many - selfreferencing
+
+	Self referencing 
+	feg: User to User (following)
+
+	Using bin/console make:entity 
+
+	ManyToMany, references to User
+	To create 
+
+
+27. Query buldier -enables creating custom queries in Repository
+
+	feg: 
+
+	public function findWithVideos($argument)
+    {
+        return $this->createQueryBuilder('u') //u is the shortcut of user
+        ->innerJoin("'u.videos', 'v'"); //assign videos to user
+		->addSelect('v') //enables edger loading
+		->andWhere('u.id = :id')
+		->setParameter('id', $id)
+		->getQuery(0)
+		->getOneOrNullResult()
+        ;
+    }
+
+	Eager loading: you do everything when asked. Classic example is when you multiply two matrices. You do all the calculations. That's eager loading;
+	Lazy loading: you only do a calculation when required. In the previous example, you don't do any calculations until you access an element of the result matrix; and
+	Over-eager loading: this is where you try and anticipate what the user will ask for and preload it.
+
+28. Doctrine Inheritance Mapping 
+
+	Symfony enables Inheritance Mapping (polimorfic quering)
+
+	feg:
+
+	file (abstract) entity:
+	name
+	size 
+	description
+
+	video (extention of file entity) entity
+	format
+	duration 
+
+	pdf (extention of file entity) entity
+	number of pages
+	orientation 
+
+	It is used to save records in DB 
+
+	Selecting from abstract classes results in selecting from all inherited tables 
+	Modification is also possible (do not need to know object type - polymorphism)
+
+
+	Executing:
+
+	1.creating entities
+	-file
+	-video
+	-pdf
+	2. setting up Relations
+	3. In abstract Class adding "abstract" keyword before  and extends another inheritated classes
+	 feg:
+
+	namesapce App/Entity
+	use Docrine\ORM\Mapping as ORM;
+
+	/**
+	* @ORM\Entity(repositoryClass="App\Repository\FileRepository")
+	*/
+	//abstract class can not have inscance 
+	 abstract class File {
+
+
+	 }
+	in File.php
+
+	and 
+
+	class Pdf extends File
+	{
+
+
+	}
+	3. Futher confiruration for single table:
+
+		File:
+
+		Adding 
+	
+	* @ORM\InheritanceType("SINGLE_TABLE") //for storing in single table JOINED - for many tables
+	* @ORM\DiscriminatorColumn(name="type",type="string")
+	* @ORM\DiscriminatorMap({"video"="Video","pdf"="Pdf"})
+
+	before abstract class annotation 
+
+Checking class of inscance:
+
+if($file inscanceof Pdf::class)
+
+Or Creating mor complex query in Repository
+
+public function findPdfById
+{
+	return $this -> createQueryBuilder('a')
+		->where('a.id = :id')
+		->setParameter('id',$id)
+		->innerJoin('a.files','f')
+		->andWhere('f INSTANCE OF App/Entity/Pdf')
+		->addSelect('f') //for edger loading
+		->getQuery()
+		->getOneOrNullResult()
+		;
+
+}
+
+29. Service parameters
+
+	We can define parameters in servicies.yaml. Defined parameters are avaliable for our custom servicies
+	feg:
+
+	namespace App\Serviecies;
+
+ class Some{
+
+    public function __construct($param)
+    {
+     dump($param);
+    }
+
+ }
+
+in servicies.yaml
+
+    App\Serviecies\Some:
+        arguments:
+            $param: "some"
+
+	we can define global param in servicies.yaml in 
+	_defaults:
+			autowire: true      # Automatically injects dependencies in your services.
+			autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+				bind:
+					$globalparam : "global text"
+
+	but then every servicies class has to contain it
+
+	We can also pass another Service to our Service in servicies.yaml
+
+	App\Serviecies\Some:
+        arguments:
+            $param: "@App\Servicies\AnotherService"
+
+		Instance will be generated automatically. Do not require object type and namespace
+
+
+	but ... 
+	It is not necessery because 
+
+		autowire : true 
+	
+	automatically will build up and share all Servicies 
+
+30. Injecting servicies containing diffrent methods than __construct()
+	It is used for injecting optional dependencies.
+
+Inside First Service
+
+    /**
+     * @required
+     */
+    public function setSecondService(SecondService $secondService)
+    {
+      dump($secondService);
+    }
+
+ @required annotation is necessery to make it work
+
+ To avoid code duplication it is recommended to use trait:
+
+ create file with trait with proper name spacer and type inside:
+
+
+
+ <?php
+
+namespace App\Serviecies;
+use App\Serviecies\SecondService;
+
+trait OptionalServiceTrait{
+
+    public $service;
+    /**
+     * @Required
+     */
+    public function setSecondService(SecondService $secondService)
+    {
+      $this->service=$secondService;
+    }
+}
+
+
+It is a middleman with SecondServiece 
+
+Insted of using in First class:
+
+ public $service;
+    /**
+     * @Required
+     */
+    public function setSecondService(SecondService $secondService)
+    {
+      $this->service=$secondService;
+    }
+
+	we can just type:
+
+	use OptionalServiceTrait;
+	
+	INSIDE CLASS NOT NAMESPACE SECTION
+
+31. Lazy Servicies:
+
+In servicies.yaml:
+
+	 App\Serviecies\Some:    
+        arguments:
+            $service: '@App\Serviecies\Smok'
+
+    App\Serviecies\Smok:
+        lazy: true
+
+Smok will be instancieated only if called directly from controler.
+
+32. Servicies aliases:
+
+In servicies.yaml:
+
+app.smok:
+ class:  App\Serviecies\Smok
+
+33. Servicies tags - symfony will handle servicies in diffrent way 
+
+	Our Servicies can happen when special event occures, or as extention of existing servicies
+	feg: twig engine.
+
+	App\Servicies\SomeService
+		tag:
+			-{name: doctrine.event_listiner, event: postFlush}
+
+	This will automatically lunch postFlush method from SomeService Namespace after flush()
+	method done
+
+34. Interface and implements
+
+	Interface specifies which methods must be implemented to class without defining the way of implementation
+	If method would not be implemented it will throw critical error.
+
+	https://www.php.net/manual/en/language.oop5.interfaces.php
+
+	Interfces can be extended.
+
+	In Symfony Interfaces can be used as normal Servicies.
+
+	Feg:
+
+	In servicies.yaml:
+
+	servicies:
+		App\Servicies\ServiciesInterface:'@App\Servicies\FirstService'
+
+
+	In servicies_heroku.yaml:
+	servicies:
+		App\Servicies\ServiciesInterface:'@App\Servicies\SocondService'
+	
+   In ServiciesInterface.php:
+	<?php
+		namespace App\Servicies
+
+		interface ServiciesInterface 
+		{
+
+		}
+
+
+	In FirstService:
+
+	namespace App\Servicies;
+	use App\Servicies\ServiciesInterface;
+
+	class FirstService implements ServiciesInterface
+	{
+
+		...
+	}
+
+	In SecondService:
+
+	namespace App\Servicies;
+	use App\Servicies\ServiciesInterface;
+
+	class SecondService implements ServiciesInterface
+	{
+
+		...
+	}
+
+	Due to changeing APP_ENV="dev" to APP_ENV="heroku",
+	 we overwritie servicies.yaml by servicies_heroku.yaml and change entire structure of
+	 application without changeing any code.
+
+	Feg usage:
+		In dev mode application will implement uploading wideo to localhost.
+		In heroku mode application will impliment uploading wideo to vimeo
+
+	https://symfony.com/doc/current/reference/dic_tags.html
+
+
+35. Cacheing 
+
+	https://symfony.com/doc/current/components/cache.html
+
+	composer require symfony/cache 
+
+	example :
+
+	use Symfony\Componet\Chache\Adapter\FilesystemAdapter
+
+	$cache = new FilesystemAdapter();
+	$post = $cache -> getItem("key.value feg dbname.postname");
+
+	if(!$post->isHit())
+	{
+		//Getting Posts From Db 
+		$post->set(serialize($post_from_db));
+		
+		//serialize necessery because caching do not read arrays
+
+		$post->expiresAfter(1000); //w sekundach
+		$cache->save($post);
+	}
+
+		$cache->deleteItem("cache.key"); 
+		$cache->clear(); //clear all cache 
+
+	Cache tagging using for clearing only tagged cache elements or creating 
+	more advanced cacheing system:
+
+	use Symfony\Componet\Chache\Adapter\TagAwareAdapter;
+	use Symfony\Componet\Chache\Adapter\FilesystemAdapter;
+
+	
+
+
+ 	$cache = new TagAvareAdapter(new FilesystemAdapter);
+
+
+	$acer = $cache -> getItem("computers.acer");
+
+	if(!$acer=isHit())
+	{
+			$acer_from_db = "opis";
+			$acer -> set($acer_from_db );
+			$acer -> tag(['compuster','laptop','acer']); //setting as many as want
+			$cache -> save($acer);
+			//not setting exp time
+	}
+
+	$cache->invalidateTags('laptop'); //deleting everything with laptop tag
+	
+36. Env vs Kernels 
+
+	APP_ENV=dev -most important variable in application 
+
+	depending on this the proper folders in config folder will be read, as well as
+	feg servicies_dev.yaml, servicies_prod.yaml files.
+
+
+	In public/index.php symfony creates a Kernel instance. Kernel is responsible for getting the request and sending the response to a browser. 
+	Kerner creates servicies container and puts instances of classes in it according to env. We can see namespaces and their envirement in bundles.php.
+	Bundles and their env are added automatically during instalation, but we can set it manually. We can also create another kernel feg: for api, 
+	but it is no longer recommended by symfony.
+
+37. Deploying application 
+
+	1.
+	composer require symfony/requirements-checker	//check whether server meets symfony requirements 
+	
+	we can check it by using rout : /check.php
+
+	2.
+		we can use:
+		.env		//production env set 
+		.env.local	//development env set 
+
+		.env.local will be always read, but by adding .env.local to .gitignore and deploying to a server by git the application will be work in prod env
+
+		if deploying useing git command: composer install --no-dev --optimaze-autoloader
+
+		After deploying:
+
+		doctrine:database:create 
+		doctrine:migrations:generate
+		bin/console cache:clear --env=prod --no-debug
+
+38. Events and EventListners 
+
+	bin/console debug:event-despather // listing all listiners ordered by event
+
+	subscribers and listners - we can execute our own code after some event happen
+
+	Diffrence between subscriber and listiners:
+	Listiner - is declarated in configuration file
+	subscriber - class always knows what kind of event will activate it 
+
+	Every event has its priority - 
+
+39. 
+	Implementation:
+
+	namespace App\Serviecies;
+
+	use Symfony\Compontent\HttpKernel\Event\FilterREsponseEvent;
+	use Symfony\Component\HttpFoundation\Response;
+
+	class KernelResponseListener {
+
+		public function onKernelResponse(FilterREsponseEvent $event)
+		{
+
+			$response = new Response('dupa');
+			$event->setResponse($response);
+		}
+	}
+
+	in servicies.yaml
+
+		App\Servicies\Kernel\ResponseListener:
+			tags:
+				-{name: kernel.event_listener, event: kernel.response}
+
+
+Entire response will be  replace by "dupa"
+
+40. Improving Listiners and our own listiner
+
+	1. Creating Listiner folder in src 
+	2. creating somethingToListen.php in it
+	3. In servicies.yaml
+
+	App\Listiners\somethingToListen:
+		tags:
+				-{name: kernel.event_listener, event: some.event,
+				method: onSomeEvent} //ovewriting symfony default methods
+
+	4. Creating Events Folder and someEvent.php in it
+	5. Putting :
+
+		namespace App\Events
+
+		use Symfony\Component\EventDispatcher\Event
+
+		class someEvent extends Event //makes class someEvent recogisable to symfony
+		{
+
+
+		}
+
+	in it.
+	6. Creating skeletor of Listner Class
+		namespace App\Listenets;
+
+	class someListiner
+	{
+		public function onSomeEvent($event)
+		{
+			
+		}
+	}
+	7. bin/console debug:event-dispatcher some.event
+		//makes event and listiner recognisable by symfony
+	8. In Controller
+		
+		use App\Events\someEvent;
+		use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+
+		public function __construct(EventDispatcherInterface $dispatcher)
+			{
+				$this->dispatcher = $dispatcher;
+
+			}
+		
+		somewhere in controller:
+
+		$event= new someEvent($objectTriggeringEvent);
+		$this -> dispatcher -> dispatch('some.event', $event);
+		// passes $objectTriggeringEvent to Listner Class and Litner Class processing it
+		//It helps keep code clean
+
+		In Listinter
+
+		namespace App\Listenets;
+
+	class someListiner
+	{
+		public function onSomeEvent($event)
+		{
+			dump($objectTriggeringEvent);
+		}
+	}
+
+41. Creating subscribers (recommended way)
+
+	(no need to configure it in servicies.yaml)
+	bin\console make:subscriber 
+
+	->select class name to subscribe
+
+	Generates EventSubscriber Folder with 
+	classname.php and 
+
+	public function  onClassName($event)
+	{
+		//code to handle event goes here
+	}
+
+	public static function getSubscribedEvents()
+	{
+		return 
+		[
+			'some.event'=> 'onSomeCratedEvent',
+		]
+	}
+	inside 
+
+	to subscribe build in symfony event:
+
+	use SymfonyComponent\EventDispatcher\EventSubscriberInterface;
+	use Symfony\Component\HttpKernel\KernelEvents;
+	use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
+
+	public function  onClassName($event)
+	{
+		//code to handle event goes here
+	}
+
+	public function onKernelResponse(FilterResponseEvent $event)
+	{
+		//code to handle event goes here 
+	}
+
+
+	public static function getSubscribedEvents()
+	{
+		return 
+		[
+			'some.event'=> 'onSomeCratedEvent',
+			KernelEvents::Response => 'onKernelResponse',
+		]
+	}
+
+	Many events and setting event priority:
+
+	return 
+		[
+			'some.event'=> 'onSomeCratedEvent',
+			KernelEvents::Response => 
+			[
+				['onKernelResponse1', 2], //number is priority
+				['onKernelResponse2', 0],	//the higher priority = the higher position in que
+			]
+		]
+
+		//first will be onKernelResponse1;
+
+		Kernel Response Events are executing after execution of Controller method
+		so they would be after events contained in controllers
+
+	42. Symfony Forms
+
+		composer require symfony/form
+
+		Forms in Symfony are realated with entities
+
+			1. Making or updating entity
+
+			2. bin/console make:form <FormTypeName>
+				
+				>RelatedEntityName
+
+			3. bin/console doctrine:mirgations:diff
+			4. Update db schema
+			5. Symfony will make Form/<FormNameFile>
+
+			6. Adding  to it:
+
+			use Symfony\Component\Form\Extension\Core\Type\SubmitType; //Submit namespace
+
+
+				public function buildForm(FormBuilderInterface $builder, array $options)
+		{
+			$builder
+				->add('title')
+				->add('created_at')
+				->add('save', SubmitType::Class) //adding button
+				//->add('user')	//this is relation
+			;
+		}
+			
+	7. Rendering in View:
+
+		In Controller:
+
+		use App\Form\<FormTypeName>
+
+			In method:
+
+				$entity = new Entity();
+
+				$entity->setTitle("Title"); 
+				$entity->setDescription("Description");
+
+				//above will cause filling form with data
+
+				$form = $this->render(FormTypeClass::class, $entity);
+
+				$form->handleRequest($request); //check $request status and set form submitted or not
+
+				if($form->isSubmitted() && $form->isValid())
+				{
+
+					dump($form->getData()); //dumping data from form
+				}
+
+			return $this->render("templates/someTempate.html.twig",[
+				'form' => $form ->createView(),
+			]);
+
+
+		In template:
+
+			First option:
+
+				{{form_start(form)}}
+					{{form_widget(form)}}
+				{{form_end(form)}}
+
+			Second option:
+
+			{{form(form)}}
+
+	8.Editing Form 
+
+		feg:
+
+		use Symfony\Component\Form\Extension\Core\Type\DateType; 
+
+				public function buildForm(FormBuilderInterface $builder, array $options)
+		{
+			$builder
+				->add('title', TextType::Class,[
+					'label' => 'Set Title',	
+					'data' => 'Placeholder', //creating Placeholder (do not need to set it in Controller)
+				])
+
+				->add('created_at', DateType::Class,[
+					'label' => 'Set date',	
+					'widget' => 'single_text',
+					'required' => false, // by default all inputs are required
+				]) 
+
+				//DateType::Class and array provide look of input type="date"  
+
+				->add('save', SubmitType::Class) //adding button
+				//->add('user')	//this is relation
+			;
+		}
+
+	For more types see symfony docs
+
+	9. Stylelising forms in view
+
+		1. Choosing form theme from form thems in symfony docs
+
+			Set
+				form_theme: ['bootstrap_4_layout.html.twig'] //global value for all themes
+			
+			in config/twig.yaml
+		
+		It will automatically add bootsrap classes 
+
+		2. ovewriting layouts in template:
+
+			{% form_theme form 'form_table_layout.html.twig' %}
+
+	10. Sending Form
+
+	Controller:
+
+		if($form->isSubmitted() && $form->isValid())
+				{
+					$entityManager->persist($ObjectRelatedWithForm);
+					$entityManager->flush();
+					return $this->redirectToRoute("sameRout");
+				}
+	
+	11. Form Validation 
+
+		1. composer require symfony/validator	doctrine/annotations
+
+		2. Writing down rules in Entity feg:
+
+		use Symfony\Component\Validator\Constraints as Assert;
+
+		/**
+		*@ORM\Column(type="string", length="255")
+		*@Assert\Length(min="2",max="10", minMessage="Too short, minimum chart number {{min}}", maxMessage="Too long, max chart number {{max}}")
+		*@Assert\NotBlank()
+		*/
+
+		Feg for email: 
+		/**
+		*@ORM\Column(type="string", length="255")
+		*@Assert\Email(message="The {{value}} is not valid email")
+		*@Assert\NotBlank()
+		*/
+
+	12. Form Events 
+
+	use Symfony\Component\Form\FormEvent
+	use Symfony\Component\Form\FormEvents
+
+	In App\Form\<FormTypName>
+
+	buildForm
+
+	$builder->addEventListner(FormEvents::PRE_SET_DATA, function (FormEvent $event){
+	
+		$video = $event->getData();
+		$form = $event->getForm();
+
+		if (!$video || null === $video->getId)
+		{
+			$form->add('created_at', DataType::class,
+			[
+				'label' => 'Set date',
+				'widget' => 'single_text',	
+			])
+		}
+	});
+
+	//Symfony listens to event happens right after bulding up inputs
+	If in setting up buldier methods we delete $form->add('created at' ...)
+	created at will be displayed only if theres no this video in db yet
+
+	In template:
+
+			{{form_start(form)}}
+
+				{{form_label(form.title)}}
+				{{form_widget(form.title)}}
+				{% if form.created_at is defined %}
+					{{form_label(form.created_at)}}
+					{{form_widget(form.created_at)}}
+				{% endif %}
+				{{form_label(form.save)}}
+				{{form_widget(form.save)}}
+
+			{{form_end(form)}}
+
+	13. Form not related to entity 
+
+		use Symfony\Component\Form\Extension\Core\Type\FileType
+
+			$builder
+				->add('Agreement', CheckboxType::Class,[
+					'label' => 'Agree?',	
+					'mapped' => False //disable relation with entity 
+				])
+
+	14. Upload Files
+
+		bin/console make:entity 
+		>file 
+		...
+
+		In Entity 
+
+		/**
+		*@ORM\Column(type="string", length="255")
+		*@Assert\File(
+		*maxSize = 1024k,
+		*mimeTypes = {"video/mp4","application/pdf","application/x-pdf""},
+		*mimeTypesMessage = "Please Upload a Valid Video",
+		*)
+		*/
+
+		In VideoFormType
+
+		
+			$builder
+				->add('File', FileType::Class,[
+					'label' => 'Add File',	
+				])
+
+		In twgi template:
+
+		{{form_label(form.File)}}
+				{{form_widget(form.File)}}
+
+
+		In Controller:
+
+			if($form->isSubmitted() && $form->isValid())
+				{
+					$file= $form->get('file')->getData();
+					$fileName = shal(random_bytes(14)).'.'.$file->guessExtension();
+					$file->move(
+						$this->getParameter('videos_directory'),
+							$fileName
+					);
+					$entityManager->persist($file;
+					$entityManager->flush();
+					return $this->redirectToRoute("sameRout");
+				}
+
+		In servicies.yaml:
+
+			parameters:
+				videos_directory: '%kernel.project_dir%/public/uploads/videos'
+
+	44. Maliling 
+
+		composer require symfony/swiftmailer-bundle
+		//command creates also a testing envirement with:
+
+		
+		swiftmailer:
+			disable_delivery: true
+
+		in swiftmailer.yaml /test
+
+		MAILER_URL=null://localhost in .env - delivery disabled
+
+		in controller:
+
+		public function index(REquest $request, \Swift_Mailer $mailer)
+		{
+
+			$message=(new\Swift_Message('Hello'))
+				->setFrom('send@example.com')
+				->setTo('recpient@example.com')
+				->setBody(
+					$this->renderView(
+						'emails/registration.html.twig',
+						[
+							'name'=>'Robert'
+						]
+					)
+				)
+
+		}
+
+	Spooling - prepering operations in memory, but another process executing them later.
+
+	swiftmailer.yaml ../packages
+
+	swiftmailer:
+		url: '%env(MAILER_URL)'
+		spool: {type: 'memory'} /if commented email will be send for real 
+
+	It makes pages working faster because user do not need to wait for sending email first. 
+	We can make spooling emails in file also.
+
+	feg 
+		spool: 
+			type: file
+			path: '%kernel.project_dir%/var/spool'
+
+	and then send them by crone job
+
+	feg by command:
+
+		bin/console swiftmailer:spool:send --message-limit=10 --env=prod
+
+	Email functional testing:
+
+		bin/console make:functional-test //creating functional test and checking for missing packages
+
+		composer require --dev symfony/phpunit-brigde
+
+		./bin/phpunit //starting functional test
+
+		In tests/EmailsTest.php
+
+	in ::testSomething() add 
+	$client->enableProfiler();
+	$mailCollector = $client->getProfile()->getCollector('swiftmailer');
+
+	$this->assertSame(1, $mailCollector->getMessageCount());
+
+		$collectedMessages = $mailCollector->getMessages();
+		$message=$collectedMessages[0];
+
+	$this->assertInstanceOf('Swift_Message',$message);
+	$this->assertSame('Hello Email', $message->getSubject());
+	$this->assertSame('send@example.com',key($message->getFrom())); //getting key of assiociative array
+	$this->assertSame('send@example.com',key($message->getFrom()));
+	$this->$assertContains('You did it! You registred', $message->getBody())
+
+ADD:
+Some interesting twig properties:
+
+	// for in loop
+	{%for cell in table%}
+		<li>{{cell}}</li>
+	{%endfor%}
+	
+	//also for objects
+	{%for cell in table%}
+		<li>{{cell.property}}</li>
+	{%endfor%}
+	
+	//Access to objects properties
+		{{obj.property}}
+		
+	//displaying particular cells in loop (not static)
+		
+		{{somearray[loop.index0]}}
+		
+		without 0 it starts from 
+	
+	45. Creating User
+
+	bin/console make:user //creates user class with security features
+	>SecurityUser 
+	
+	46. Registration 
+
+		required packages
+
+		symfony/orm-pack 
+		symfony/form
+		symfony/security-bundles
+		symfony/validator
+		
+	1. Make registration form realted with Security User
+	2. Adding asserts to securityuser asserts 
+	3. Edit buildier in registration form 
+	4. $builder
+		->add('email', EmailType::class)
+		->add('password', RepeatedType::class,[
+			'type' => PassowedType::class,
+			'first_options' => array('label' => 'Password'),
+			'second_options' => array('label' => 'Repeat Passoword')
+		])
+		->add('save',SubmitType::class,['label' => 'Register'])
+		;
+	5. In DefaultController:
+
+		use symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+		use App\Form\RegisterUserType
+		use App\Entity\SecurityUser
+
+		Creating form,
+
+		if($form->isSubmitted() && $form->isValid())
+		{
+			$user->setPassword(
+				$passwordEncoder->encodePassword($user, form->get('password')->getData());
+			);
+			$user->setEmail($form->get('email')->getData());
+
+			$entityManager = $this->getDoctrine()->getManager();
+			$entityManager->persist($user);
+			$entityManager->flush();
+
+			return $this->redirectToRoute("sameRout");
+		}
+
+	47. login
+
+		in security.yaml
+
+		form_login: true //uncomment to enable
+			login_path: login //rout name where user will be redirected to if not logged
+			check_path: login	//path where form will be submitted to if someone try to log in to page
+
+		 	csrf_token_generator: securoty.csrf.token_manager // used to protect login form 
+			username_parameter: 'email'
+			passowrd_parameter: 'password'
+
+		in Controller 
+
+		use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+
+		public function login(AuthenticationUtils $authenticationUtils)
+		{
+			$error = $authenticationUtils->getLastAuthenticationError();
+
+			return $this->render('security/login.html.twig', array(
+				'last_username' => $lastUsername,
+				'error' => $error,
+			));
+		}
+
+	In template copy from:
+
+	https://symfony.com/doc/current/security/form_login_setup.html
+
+	48. Logout 
+		
+		In security.yaml
+
+			path: /logut 
+			target: /home	//where to redirect
+
+	Rout /logout does't need method. It can be created in routes.yaml:
+
+	logout:
+		path: /logout
+
+	Symfony will deal with logout process automatically. It only needs to to provide a link in template:
+
+	{% if app.user %} //if user is logged in 
+		<a href="{{path('logout')}}">logout</a>
+	{% endif %}
+
+
+
+
+#################################################################################################
+Commands
+#################################################################################################	
+
+//useful packages and composer commands
+
+composer require --dev symfony/phpunit-brigde
+composer require maker - enables creating some classes via console feg controller, command, doctrine
+composer dump-autoload -o //reloading classes with optimalisation param
+composer require symfony/twig-boundle // from packagist
+composer require twig // using alias from Symfony Flex
+composer require doctrine // using alias from Symfony FlexS
+composer require doctrine maker //installing doctrine maker 
+composer require form //Installing form extension	
+composer require orm //all staff regarding db 
+composer require logger //package for creating logs
+composer require symfony/security-bundle // enables app.user variable in templates
+composer req --dev orm-fixtures /installing data fixtures with flex	
+composer require web-profiler-bundle // this strip with website loading parameters
+compsoer require symfony/debug-bundle //shows varaiables in web profiler
+composer require symfony/proxy-manager-bridge
+composer require symfony/requirements-checker	//check whether server meets symfony requirements 
+composer require symfony/swiftmailer-bundle
+
+//php console commands 
+bin/console swiftmailer:spool:send --message-limit=10 --env=prod //send spooled emails
+php -S 127.0.0.1:8000 -t <directory> // run server on ip and connect it with folder f.eg public
+php bin/console debug:container //shows all avaliable servicies 
+bin/console make:controller <name> - make controller and default template
+php bin/console cache:clear //clearing server cache
+php bin/console debug:router //debugging routs
+php bin/console debug:autoiring //display all autowired Classes in container
+php bin/console doctrine:database:create //tworzy baze danych na podstawie .env
+php bin/console make:entity [entityname] //creating src/entities file with class creating table executing class creating tables
+bin/console list doctrine //list all doctrine commands
+php bin/console make:migration - creating db structure basing on entities
+php bin/console doctrine:migrations:diff //updating migration scheme baseing on entities
+php bin/console doctrine:migrations:migrate // running migrations when adding new entities just run again
+php bin/console doctrine:query:sql "SQL QUERY" //zapytanie sql z poziomu konsoli
+php bin/console doctrine:migrations:status 
+bin/console doctrine:schema:drop -n -q --force --full-database //removing all database
+bin/console doctrine:fixtures:load //loading fixtures
+bin/console //display all avaliable commands from all namespaces
+bin/console list <namespacename> //display all commands avaliable from particular namespace
+bin/console doctrine:schema:drop -n -q --force --full-database && rm src/Migrations*.php && bin/console make:migration && bin/console doctrine:migrations:migrate -n -q
+//reseting db 
+
+//Symfony and symfony extension methods
+
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+ - render, redirect, redirectToRoute and more ...
+use Symfony\Component\Routing\Annotation\Route;
+ - well known
+use Symfony\Component\HttpFoundation\Response; 
+ -response object
+
+
+
+
+
+
+ 

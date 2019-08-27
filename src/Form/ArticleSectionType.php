@@ -13,6 +13,7 @@ class ArticleSectionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            //->add('id')
             ->add('section_no')
             ->add('content', TextareaType::class,[
                 'attr' => ['class' => 'tinymce']

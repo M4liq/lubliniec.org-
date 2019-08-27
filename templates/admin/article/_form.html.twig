@@ -1,5 +1,5 @@
 
-{{ form_start(form) }}
+{{ form_start(form,{attr: {novalidate: 'novalidate'}}) }}
     <div class="col-6">
         <div class="col-10 offset-1">
         
@@ -26,11 +26,11 @@
         {% for row in form.article_section_id %}
         
         <div class="single-form">
-            {{form_row(row)}}  
+            {{form_row(row, {'attr': {'class': lastestId}} )}}  
         </div>
             <hr>
         {% endfor %}
     </div>
-    <button class="btn btn-warning mt-3 mb-3 ml-3">{{ button_label|default('Zapisz') }}</button>
+    <button class="btn btn-warning mt-3 mb-3 ml-3" type="submit">{{ button_label|default('Zapisz') }}</button>
     
 {{ form_end(form) }}

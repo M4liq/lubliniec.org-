@@ -84,11 +84,6 @@ class Article
     private $article_section_id;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\ArticlePhoto", mappedBy="article_id", orphanRemoval=true)
-     */
-    private $article_photo_id;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Period", inversedBy="article_id")
      */
     private $period_id;
@@ -284,23 +279,6 @@ class Article
         return $this;
     }
 
-    /**
-     * @return Collection|ArticlePhoto[]
-     */
-    public function getArticlePhotoId(): Collection
-    {
-        return $this->article_photo_id;
-    }
-
-    public function addArticlePhotoId(ArticlePhoto $articlePhotoId): self
-    {
-        if (!$this->article_photo_id->contains($articlePhotoId)) {
-            $this->article_photo_id[] = $articlePhotoId;
-            $articlePhotoId->setArticleId($this);
-        }
-
-        return $this;
-    }
 
     public function removeArticlePhotoId(ArticlePhoto $articlePhotoId): self
     {

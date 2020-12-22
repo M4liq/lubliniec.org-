@@ -382,7 +382,7 @@
     "nice-try": "^1.0.5",
     "node-forge": "^0.7.5",
     "node-libs-browser": "^2.2.1",
-    "node-notifier": "^5.4.3",
+    "node-notifier": "^8.0.1",
     "node-releases": "^1.1.28",
     "normalize-path": "^3.0.0",
     "normalize-url": "^3.3.0",
